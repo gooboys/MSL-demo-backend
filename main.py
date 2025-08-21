@@ -12,12 +12,12 @@ async def root():
 
 @app.post("/MSL-preprocessing")
 async def process_data(request: Request):
-    data = await request.json()
-    string = attach_prompts(data)
-    # buf = query2
-    # return StreamingResponse(buf, media_type="image/png")
+  data = await request.json()
+  string = attach_prompts(data)
+  # buf = query2
+  # return StreamingResponse(buf, media_type="image/png")
 
-    if string is None: return JSONResponse(status_code=500,
-                                           content={"error": "Prompting process failed"})
+  if string is None: return JSONResponse(status_code=500,
+                                          content={"error": "Prompting process failed"})
 
-    return JSONResponse(content=string)
+  return JSONResponse(content=string)
