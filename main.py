@@ -23,7 +23,7 @@ async def process_data(request: Request):
 
   return JSONResponse(content=dat)
 
-@app.get("/MSL-prompting", response_model=List[str])
+@app.post("/MSL-prompting")
 async def process_data(request: Request):
   data = await request.json()
   content = data["content"]
@@ -37,4 +37,4 @@ async def process_data(request: Request):
   if dat is None: return JSONResponse(status_code=500,
                                           content={"error": "Prompting process failed"})
 
-  return JSONResponse(content={"data":dat,"counter":run})
+  return {"data":dat,"counter":run}
