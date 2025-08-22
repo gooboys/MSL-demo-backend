@@ -20,9 +20,14 @@ def attach_final_prompt(data, prev_prompt):
 def attach_prompts(data):
   content = data["content"]
   prompt_number = 0
-  print(content)
+  if "PROMPT 3" in content:
+    prompt_number = 3
+  if "PROMPT 2" in content:
+    prompt_number = 2
+  if "PROMPT 1" in content:
+    prompt_number = 1
   if prompt_number == 1:
-    response = attach_initial_prompts(content)
+    response = attach_second_prompt(content)
   elif prompt_number == 2:
     response = attach_third_prompt(content)
   elif prompt_number == 3:
