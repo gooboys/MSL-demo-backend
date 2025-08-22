@@ -1,6 +1,6 @@
 import json
-from allprompts import allprompts
-from initialprompts import initial_prompts
+from app.allprompts import allprompts
+from app.initialprompts import initial_prompts
 
 
 def attach_initial_prompts(data):
