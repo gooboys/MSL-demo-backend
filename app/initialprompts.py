@@ -80,5 +80,28 @@ Format your response as:
 [PROMPT 1 OUTPUT]
 [Your analysis here]"""
   }
-  
+  remove = [
+            "KOL Full Name", 
+            "Therapeutic Area", 
+            "Product Discussed", 
+            "MSL / Submitter Name", 
+            "Company Sponsored Research Details",
+            "US: Unsolicited Request for Information"
+            ]
+  content = data["content"]
+  Epcoritamab = []
+  Kymriah = []
+  Rituximab = []
+  for i in content:
+    for key in remove:
+      i.pop(key, None)
+    if i["Product Discussed"] == "Epcoritamab":
+      Epcoritamab.append(i)
+    elif i["Product Discussed"] == "Kymriah":
+      Kymriah.append(i)
+    elif i["Product Discussed"] == "Rituximab":
+      Rituximab.append(i)
+  print(Epcoritamab)
+  print(Kymriah)
+  print(Rituximab)
   return

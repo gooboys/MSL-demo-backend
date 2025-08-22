@@ -1,14 +1,4 @@
 def allprompts(data, id, prev_prompt):
-  remove = [
-            "KOL Full Name", 
-            "Therapeutic Area", 
-            "Product Discussed", 
-            "MSL / Submitter Name", 
-            "Company Sponsored Research Details",
-            "US: Unsolicited Request for Information"
-            ]
-  for i in remove:
-    del data[i]
   education_communication_prompts = {
     0: """Analyze the insight to identify specific knowledge and communication gaps:
 
