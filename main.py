@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
 from app.prompting import attach_prompts, attach_initial_prompts
+from typing import List
 
 import io
 
@@ -10,7 +11,7 @@ app = FastAPI()
 async def root():
     return {"status": "Chart API is alive"}
 
-@app.post("/MSL-preprocessing")
+@app.get("/MSL-preprocessing", response_model=List[str])
 async def process_data(request: Request):
   data = await request.json()
   string = attach_initial_prompts(data)

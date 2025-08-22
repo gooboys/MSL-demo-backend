@@ -103,8 +103,8 @@ The data is below:
   clin = []
   comp = []
   for i in data:
-    print(i)
-    print(type(i))
+    # print(i)
+    # print(type(i))
     for key in remove:
       i.pop(key, None)
     if i["Insight Category"] == "Educational and Communication":
@@ -119,4 +119,7 @@ The data is below:
   education_prompt = prompts[0]+eptext
   clinical_prompt = prompts[1]+kymtext
   comp_prompt = prompts[2]+rittext
+  print(education_prompt)
+  print(clinical_prompt)
+  print(comp_prompt)
   return [education_prompt,clinical_prompt,comp_prompt]
