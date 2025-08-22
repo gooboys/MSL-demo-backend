@@ -94,7 +94,6 @@ The data is below:
   remove = [
             "KOL Full Name", 
             "Therapeutic Area", 
-            "Product Discussed", 
             "MSL / Submitter Name", 
             "Company Sponsored Research Details",
             "US: Unsolicited Request for Information"
