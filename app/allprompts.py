@@ -1,4 +1,4 @@
-def allprompts(data, id):
+def allprompts(data, id, cat):
   education_communication_prompts = {
     0: """Analyze the insight to identify specific knowledge and communication gaps:
 
@@ -395,4 +395,4 @@ Format your response as:
 [Your analysis here]"""
   }
   prompt_dict = { 0: education_communication_prompts, 1: clinical_practice_prompts, 2: competitive_intelligence_prompts}
-  return
+  return data + prompt_dict[cat][id]
