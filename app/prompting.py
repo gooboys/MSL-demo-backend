@@ -32,4 +32,4 @@ def attach_prompts(data, cat):
     response = attach_third_prompt(content, cat)
   elif prompt_number == 3:
     response = attach_final_prompt(content, cat)
-  return
+  return response

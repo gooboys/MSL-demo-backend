@@ -37,4 +37,4 @@ async def process_data(request: Request):
   if dat is None: return JSONResponse(status_code=500,
                                           content={"error": "Prompting process failed"})
 
-  return JSONResponse(content=dat)
+  return JSONResponse(content=dat, counter=run)
