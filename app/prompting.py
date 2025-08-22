@@ -18,7 +18,7 @@ def attach_final_prompt(data, cat):
   return allprompts(data, 3, cat)
 
 def attach_prompts(data, cat):
-  content = data["content"]
+  content = data
   prompt_number = 0
   if "PROMPT 3" in content:
     prompt_number = 3

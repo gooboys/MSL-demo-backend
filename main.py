@@ -27,8 +27,9 @@ async def process_data(request: Request):
 async def process_data(request: Request):
   data = await request.json()
   content = data["content"]
+  run = data["counter"]
   print(data)
-  string = attach_prompts(data,0)
+  string = attach_prompts(content,run)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
 
