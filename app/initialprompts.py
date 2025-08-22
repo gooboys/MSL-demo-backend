@@ -127,4 +127,4 @@ The data is below:
   # print(education_prompt)
   # print(clinical_prompt)
   # print(comp_prompt)
-  return [{'prompts':[prompts[cat],prompts[cat],prompts[cat]], 'data':[ep, kym, rit]}]
+  return [{'prompts':prompts[cat], 'data':[ep, kym, rit]}]
