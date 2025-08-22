@@ -103,9 +103,10 @@ The data is below:
   clin = []
   comp = []
   for i in data:
+    print(i)
+    print(type(i))
     for key in remove:
       i.pop(key, None)
-    print(i)
     if i["Insight Category"] == "Educational and Communication":
       ed.append(i)
     elif i["Insight Category"] == "Clinical Practice":
