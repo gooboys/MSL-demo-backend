@@ -26,6 +26,8 @@ async def process_data(request: Request):
 @app.get("/MSL-prompting", response_model=List[str])
 async def process_data(request: Request):
   data = await request.json()
+  content = data["content"]
+  print(data)
   string = attach_prompts(data,0)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
