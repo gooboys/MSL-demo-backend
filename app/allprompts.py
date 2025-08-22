@@ -1,4 +1,4 @@
-def allprompts(data, id, prev_prompt):
+def allprompts(data, id):
   education_communication_prompts = {
     0: """Analyze the insight to identify specific knowledge and communication gaps:
 
