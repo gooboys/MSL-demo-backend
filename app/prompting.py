@@ -6,7 +6,7 @@ from app.initialprompts import initial_prompts
 def attach_initial_prompts(data):
   content = data["content"]
   print(content)
-  return initial_prompts(content)
+  return initial_prompts(json.loads(content))
 
 def attach_second_prompt(data, prev_prompt):
   return allprompts(data, 1, prev_prompt)
