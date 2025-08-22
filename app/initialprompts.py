@@ -99,27 +99,33 @@ The data is below:
             "Company Sponsored Research Details",
             "US: Unsolicited Request for Information"
             ]
-  ed = []
-  clin = []
-  comp = []
+  ep = []
+  kym = []
+  rit = []
   for i in data:
     # print(i)
     # print(type(i))
     for key in remove:
       i.pop(key, None)
     if i["Insight Category"] == "Educational and Communication":
-      ed.append(i)
+      cat = 0
     elif i["Insight Category"] == "Clinical Practice":
-      clin.append(i)
+      cat = 1
     elif i["Insight Category"] == "Competitive Intelligence":
-      comp.append(i)
-  eptext = json.dumps(ed, indent=2)
-  kymtext = json.dumps(clin, indent=2)
-  rittext = json.dumps(comp, indent=2)
-  education_prompt = prompts[0]+eptext
-  clinical_prompt = prompts[1]+kymtext
-  comp_prompt = prompts[2]+rittext
+      cat = 2
+    if i["Product Discussed"] == "Epcoritamab":
+      ep.append(i)
+    elif i["Product Discussed"] == "Kymriah":
+      kym.append(i)
+    elif i["Product Discussed"] == "Rituximab":
+      rit.append(i)
+  eptext = json.dumps(ep, indent=2)
+  kymtext = json.dumps(kym, indent=2)
+  rittext = json.dumps(rit, indent=2)
+  ep_prompt = prompts[cat]+eptext
+  kym_prompt = prompts[cat]+kymtext
+  rit_prompt = prompts[cat]+rittext
   # print(education_prompt)
   # print(clinical_prompt)
   # print(comp_prompt)
-  return [education_prompt,clinical_prompt,comp_prompt]
+  return [ep_prompt,kym_prompt,rit_prompt]
