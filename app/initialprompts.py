@@ -1,3 +1,5 @@
+import json
+
 def initial_prompts(data):
   # 0 is education, 1 is clinical, 2 is competitive intelligence
   prompts = {
@@ -22,7 +24,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 1 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
   1: """Analyze the insight to identify clinical knowledge or practice gaps revealed by the healthcare professional:
 
 **Clinical Gap Categories:**
@@ -47,7 +52,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 1 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
   2: """Analyze the insight to identify knowledge gaps about [Product]'s positioning versus competitors:
 
 **Competitive Gap Categories:**
@@ -78,7 +86,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 1 OUTPUT]
-[Your analysis here]"""
+[Your analysis here]
+
+The data is below:
+"""
   }
   remove = [
             "KOL Full Name", 
@@ -88,20 +99,23 @@ Format your response as:
             "Company Sponsored Research Details",
             "US: Unsolicited Request for Information"
             ]
-  content = data["content"]
-  Epcoritamab = []
-  Kymriah = []
-  Rituximab = []
-  for i in content:
+  ed = []
+  clin = []
+  comp = []
+  for i in data:
     for key in remove:
       i.pop(key, None)
-    if i["Product Discussed"] == "Epcoritamab":
-      Epcoritamab.append(i)
-    elif i["Product Discussed"] == "Kymriah":
-      Kymriah.append(i)
-    elif i["Product Discussed"] == "Rituximab":
-      Rituximab.append(i)
-  print(Epcoritamab)
-  print(Kymriah)
-  print(Rituximab)
-  return
+    print(i)
+    if i["Insight Category"] == "Educational and Communication":
+      ed.append(i)
+    elif i["Insight Category"] == "Clinical Practice":
+      clin.append(i)
+    elif i["Insight Category"] == "Competitive Intelligence":
+      comp.append(i)
+  eptext = json.dumps(ed, indent=2)
+  kymtext = json.dumps(clin, indent=2)
+  rittext = json.dumps(comp, indent=2)
+  education_prompt = prompts[0]+eptext
+  clinical_prompt = prompts[1]+kymtext
+  comp_prompt = prompts[2]+rittext
+  return [education_prompt,clinical_prompt,comp_prompt]
