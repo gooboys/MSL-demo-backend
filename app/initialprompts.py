@@ -118,13 +118,13 @@ The data is below:
       kym.append(i)
     elif i["Product Discussed"] == "Rituximab":
       rit.append(i)
-  eptext = json.dumps(ep, indent=2)
-  kymtext = json.dumps(kym, indent=2)
-  rittext = json.dumps(rit, indent=2)
-  ep_prompt = prompts[cat]+eptext
-  kym_prompt = prompts[cat]+kymtext
-  rit_prompt = prompts[cat]+rittext
+  # eptext = json.dumps(ep, indent=2)
+  # kymtext = json.dumps(kym, indent=2)
+  # rittext = json.dumps(rit, indent=2)
+  # ep_prompt = prompts[cat]+eptext
+  # kym_prompt = prompts[cat]+kymtext
+  # rit_prompt = prompts[cat]+rittext
   # print(education_prompt)
   # print(clinical_prompt)
   # print(comp_prompt)
-  return [ep_prompt,kym_prompt,rit_prompt]
+  return [{'prompts':[prompts[cat],prompts[cat],prompts[cat]], 'data':[ep, kym, rit]}]
