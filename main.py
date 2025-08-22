@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
-from app.prompting import attach_prompts
+from app.prompting import attach_prompts, attach_initial_prompts
 
 import io
 
@@ -13,7 +13,7 @@ async def root():
 @app.post("/MSL-preprocessing")
 async def process_data(request: Request):
   data = await request.json()
-  string = attach_prompts(data)
+  string = attach_initial_prompts(data)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
 
