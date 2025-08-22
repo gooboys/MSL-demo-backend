@@ -14,26 +14,27 @@ async def root():
 @app.get("/MSL-preprocessing", response_model=List[str])
 async def process_data(request: Request):
   data = await request.json()
-  string = attach_initial_prompts(data)
+  dat = attach_initial_prompts(data)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
 
-  if string is None: return JSONResponse(status_code=500,
+  if dat is None: return JSONResponse(status_code=500,
                                           content={"error": "Prompting process failed"})
 
-  return JSONResponse(content=string)
+  return JSONResponse(content=dat)
 
 @app.get("/MSL-prompting", response_model=List[str])
 async def process_data(request: Request):
   data = await request.json()
   content = data["content"]
   run = data["counter"]
-  print(data)
-  string = attach_prompts(content,run)
+  # print(data)
+  dat = attach_prompts(content,run)
+  print(dat)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
 
-  if string is None: return JSONResponse(status_code=500,
+  if dat is None: return JSONResponse(status_code=500,
                                           content={"error": "Prompting process failed"})
 
-  return JSONResponse(content=string)
+  return JSONResponse(content=dat)
