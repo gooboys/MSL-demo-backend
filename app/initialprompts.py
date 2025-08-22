@@ -102,17 +102,17 @@ The data is below:
   ep = []
   kym = []
   rit = []
+  if data[0]["Insight Category"] == "Educational and Communication":
+    cat = 0
+  elif data[0]["Insight Category"] == "Clinical Practice":
+    cat = 1
+  elif data[0]["Insight Category"] == "Competitive Intelligence":
+    cat = 2
   for i in data:
     # print(i)
     # print(type(i))
     for key in remove:
       i.pop(key, None)
-    if i["Insight Category"] == "Educational and Communication":
-      cat = 0
-    elif i["Insight Category"] == "Clinical Practice":
-      cat = 1
-    elif i["Insight Category"] == "Competitive Intelligence":
-      cat = 2
     if i["Product Discussed"] == "Epcoritamab":
       ep.append(i)
     elif i["Product Discussed"] == "Kymriah":
