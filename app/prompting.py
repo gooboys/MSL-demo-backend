@@ -27,6 +27,6 @@ def attach_education_prompts(content, prompt_number, records):
   elif prompt_number == 3:
     response = attach_final_prompt(content, 0)
   elif prompt_number == 4:
-    return response
+    return content
   rec = json.dumps(records, indent=2)
   return response+rec
