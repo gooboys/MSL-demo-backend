@@ -28,8 +28,9 @@ async def process_data(request: Request):
   data = await request.json()
   content = data["content"]
   run = data["counter"]
+  records = data["records"]
   # print(data)
-  dat = attach_prompts(content,run)
+  dat = attach_prompts(content, run, records)
   print(dat)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
@@ -37,4 +38,4 @@ async def process_data(request: Request):
   if dat is None: return JSONResponse(status_code=500,
                                           content={"error": "Prompting process failed"})
 
-  return {"data":dat,"counter":run}
+  return {"data":dat,"run":run}

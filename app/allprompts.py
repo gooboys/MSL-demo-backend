@@ -1,4 +1,4 @@
-def allprompts(data, id, cat):
+def allprompts(data, step, cat):
   education_communication_prompts = {
     0: """Analyze the insight to identify specific knowledge and communication gaps:
 
@@ -50,7 +50,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 2 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
     2:"""Based on the gaps and behaviors identified in previous steps, identify the underlying unmet needs driving stakeholder gaps and behaviors:
 
 **Need Categories:**
@@ -81,7 +84,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 3 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
     3:"""Based on the comprehensive analysis from previous steps, develop specific Medical Affairs actions to close gaps and meet identified needs:
 
 **Action Framework:**
@@ -116,7 +122,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 4 OUTPUT]
-[Your analysis here]"""
+[Your analysis here]
+
+The data is below:
+"""
   }
 
   clinical_practice_prompts = {
@@ -172,7 +181,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 2 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
     2: """Based on identified gaps and behaviors, infer the underlying unmet needs of clinicians and institutions:
 
 **Clinician Need Categories:**
@@ -206,7 +218,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 3 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
     3: """Based on the comprehensive clinical analysis, develop specific Medical Affairs actions to address practice challenges and support stakeholders:
 
 **Clinical Action Framework:**
@@ -241,7 +256,9 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 4 OUTPUT]
-[Your analysis here]"""
+[Your analysis here]
+The data is below:
+"""
   }
 
   competitive_intelligence_prompts = {
@@ -309,7 +326,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 2 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
 
     2: """Based on competitive perceptions and behaviors, infer the underlying needs of decision-makers that influence choice between [Product] and alternatives:
 
@@ -350,7 +370,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 3 OUTPUT]
-[Your analysis here]""",
+[Your analysis here]
+
+The data is below:
+""",
 
     3: """Based on comprehensive competitive analysis, develop specific Medical Affairs actions to address needs and strengthen competitive positioning:
 
@@ -392,7 +415,10 @@ Format your response as:
 [Copy this entire prompt here]
 
 [PROMPT 4 OUTPUT]
-[Your analysis here]"""
+[Your analysis here]
+
+The data is below:
+"""
   }
   prompt_dict = { 0: education_communication_prompts, 1: clinical_practice_prompts, 2: competitive_intelligence_prompts}
-  return data + prompt_dict[cat][id]
+  return data + prompt_dict[cat][step]

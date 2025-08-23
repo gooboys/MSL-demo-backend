@@ -17,19 +17,14 @@ def attach_third_prompt(data, cat):
 def attach_final_prompt(data, cat):
   return allprompts(data, 3, cat)
 
-def attach_prompts(data, cat):
-  content = data
-  prompt_number = 0
-  if "PROMPT 3" in content:
-    prompt_number = 3
-  if "PROMPT 2" in content:
-    prompt_number = 2
-  if "PROMPT 1" in content:
-    prompt_number = 1
+
+#{ 0: education_communication_prompts, 1: clinical_practice_prompts, 2: competitive_intelligence_prompts}
+def attach_education_prompts(content, prompt_number, records):
   if prompt_number == 1:
-    response = attach_second_prompt(content, cat)
+    response = attach_second_prompt(content, prompt_number, 0)
   elif prompt_number == 2:
-    response = attach_third_prompt(content, cat)
+    response = attach_third_prompt(content, prompt_number, 0)
   elif prompt_number == 3:
-    response = attach_final_prompt(content, cat)
-  return response
+    response = attach_final_prompt(content, prompt_number, 0)
+  rec = json.dumps(records, indent=2)
+  return response+rec
