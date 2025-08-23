@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
-from app.prompting import attach_prompts, attach_initial_prompts
+from app.prompting import attach_education_prompts, attach_initial_prompts
 from typing import List
 
 import io
@@ -30,7 +30,7 @@ async def process_data(request: Request):
   run = data["counter"]
   records = data["records"]
   # print(data)
-  dat = attach_prompts(content, run, records)
+  dat = attach_education_prompts(content, run, records)
   print(dat)
   # buf = query2
   # return StreamingResponse(buf, media_type="image/png")
