@@ -45,6 +45,7 @@ async def process_data(request: Request):
 async def pptx_generation(request: Request):
   data = await request.json()
   rec = data["content"]
+  print("this is rec:\n", rec)
   pptx = pptx_maker(rec)
   
   if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
