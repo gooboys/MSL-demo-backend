@@ -1,5 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from app.prompting import attach_education_prompts, attach_initial_prompts
 from app.pptxgenerator import pptx_maker
 from typing import List
@@ -7,6 +8,14 @@ from typing import List
 import io
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
 
 @app.get("/")
 async def root():
@@ -45,7 +54,7 @@ async def process_data(request: Request):
 async def pptx_generation(request: Request):
   data = await request.json()
   rec = data["content"]
-  print("this is rec:\n", rec)
+  # print("this is rec:\n", rec)
   pptx = pptx_maker(rec)
   
   if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
