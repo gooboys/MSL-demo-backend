@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
 from app.prompting import attach_education_prompts, attach_initial_prompts
+from app.pptxgenerator import pptx_maker
 from typing import List
 
 import io
@@ -39,3 +40,10 @@ async def process_data(request: Request):
                                           content={"error": "Prompting process failed"})
 
   return {"data":dat,"run":run}
+
+@app.post("/PPTX-generation")
+async def pptx_generation(request: Request):
+  data = await request.json()
+  pptx = pptx_maker(data)
+  
+  if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
