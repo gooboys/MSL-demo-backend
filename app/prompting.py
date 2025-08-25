@@ -30,3 +30,27 @@ def attach_education_prompts(content, prompt_number, records):
     return content
   rec = json.dumps(records, indent=2)
   return response+rec
+
+def attach_clinical_prompts(content, prompt_number, records):
+  if prompt_number == 1:
+    response = attach_second_prompt(content, 1)
+  elif prompt_number == 2:
+    response = attach_third_prompt(content, 1)
+  elif prompt_number == 3:
+    response = attach_final_prompt(content, 1)
+  elif prompt_number == 4:
+    return content
+  rec = json.dumps(records, indent=2)
+  return response+rec
+
+def attach_competitive_prompts(content, prompt_number, records):
+  if prompt_number == 1:
+    response = attach_second_prompt(content, 2)
+  elif prompt_number == 2:
+    response = attach_third_prompt(content, 2)
+  elif prompt_number == 3:
+    response = attach_final_prompt(content, 2)
+  elif prompt_number == 4:
+    return content
+  rec = json.dumps(records, indent=2)
+  return response+rec
