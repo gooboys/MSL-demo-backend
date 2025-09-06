@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.prompting import attach_education_prompts, attach_initial_prompts, attach_clinical_prompts, attach_competitive_prompts
-from app.pptxgenerator import pptx_maker
+from app.powerpoint.pptxgenerator import pptx_maker
 from app.demosite import get_powerpoint, get_pdf_doc
 from typing import List
 
