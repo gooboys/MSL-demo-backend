@@ -6,7 +6,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from app.data_analytics.congresses import list_unique_congresses
 from app.data_analytics.hcp_interactions import count_unique_interactions
-from app.data_analytics.icategories import pie_insight_category_counts, pie_insight_category_percentages
+from app.data_analytics.icategories import pie_insight_category_counts
 from app.data_analytics.psetting import pie_practice_setting_by_interaction
 from app.data_analytics.unique_msls import list_unique_msls
 import traceback
