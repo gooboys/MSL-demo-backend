@@ -1,10 +1,24 @@
 import json
 from app.data_analytics.congresses import list_unique_congresses
-from app.data_analytics.HCPinteractions import count_unique_interactions
+from app.data_analytics.hcp_interactions import count_unique_interactions
 from app.data_analytics.icategories import pie_insight_category_counts, pie_insight_category_percentages
 from app.data_analytics.psetting import pie_practice_setting_by_interaction
-from app.data_analytics.uniqueMSLs import list_unique_msls
+from app.data_analytics.unique_msls import list_unique_msls
+import traceback
+print("[demosite] importing congresses...")
 
+try:
+	import app.data_analytics.congresses as _c
+	print("[demosite] congresses.__file__:", getattr(_c, "__file__", None))
+	print("[demosite] has list_unique_congresses?:", hasattr(_c, "list_unique_congresses"))
+	print("[demosite] dir sample:", [n for n in dir(_c) if "congress" in n.lower() or "list" in n.lower()])
+	# keep this line last; it will still raise if the symbol truly isn't there
+	from app.data_analytics.congresses import list_unique_congresses
+	print("[demosite] direct import succeeded")
+except Exception as e:
+	print("[demosite] import failed:", repr(e))
+	traceback.print_exc()
+	raise
 
 def _extract_rows(content):
   """
