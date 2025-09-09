@@ -110,7 +110,7 @@ def _png_b64(png_bytes: bytes) -> str:
 	"""
 	return base64.b64encode(png_bytes).decode("utf-8")
 
-def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
+def _create_pie_chart(data: dict[str, int]) -> bytes:
   """
   Create a pie chart (PNG bytes) with:
     - Legend at the bottom (color-coded key)
@@ -130,7 +130,6 @@ def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
   OUTSIDE_THRESHOLD = 6.0  # percent
 
   fig, ax = plt.subplots(figsize=(6, 4))
-  ax.set_title(title)
 
   # Draw pie without labels (legend will handle labels)
   wedges, _ = ax.pie(
@@ -142,7 +141,7 @@ def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
   ax.axis("equal")
 
   # Add count labels inside or outside depending on size
-  for i, (wedge, val) in enumerate(zip(wedges, values)):
+  for wedge, val in zip(wedges, values):
     pct = (val / total) * 100.0
     theta = (wedge.theta2 + wedge.theta1) / 2.0
     theta_rad = np.deg2rad(theta)
@@ -151,8 +150,6 @@ def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
     r = 0.7
     x = r * np.cos(theta_rad)
     y = r * np.sin(theta_rad)
-    ha = "center"
-    va = "center"
 
     if pct < OUTSIDE_THRESHOLD:
       # Outside with a leader line
@@ -169,7 +166,7 @@ def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
         arrowprops=dict(arrowstyle="-", lw=0.8, shrinkA=0, shrinkB=0),
       )
     else:
-      ax.text(x, y, f"{int(val):,}", ha=ha, va=va, fontsize=10)
+      ax.text(x, y, f"{int(val):,}", ha="center", va="center", fontsize=10)
 
   # Legend at the bottom, multi-column if many labels
   ncol = 2 if len(labels) <= 6 else 3
@@ -220,8 +217,8 @@ def get_powerpoint(data):
 	print("Unique MSLs:", msls)
 
 	# --- Build PNG pies (raw counts) ---
-	practice_pie_png = _create_pie_chart(practice_counts, "HCP Practice Setting")
-	category_pie_png = _create_pie_chart(category_counts, "Insight Categories")
+	practice_pie_png = _create_pie_chart(practice_counts)
+	category_pie_png = _create_pie_chart(category_counts)
 
 	# Base64 for n8n (JSON-safe)
 	practice_pie_b64 = _png_b64(practice_pie_png)
