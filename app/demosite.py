@@ -1,4 +1,11 @@
 import json
+from app.data_analytics.congresses import list_unique_congresses
+from app.data_analytics.HCPinteractions import count_unique_interactions
+from app.data_analytics.icategories import pie_insight_category_counts, pie_insight_category_percentages
+from app.data_analytics.psetting import pie_practice_setting_by_interaction
+from app.data_analytics.uniqueMSLs import list_unique_msls
+
+
 def _extract_rows(content):
   """
   Accepts many possible shapes and returns List[Dict].
@@ -78,17 +85,41 @@ def _normalize_fields_inplace(rows):
         pass
 
 def get_powerpoint(data):
-  content = data["content"]
-  # print(content)
+	# unwrap to rows
+	content = data.get("content", data)
+	rows = _extract_rows(content)
+	_normalize_fields_inplace(rows)
 
-  rows = _extract_rows(content)
-  print(f"rows type: {type(rows)}  len: {len(rows)}")
-  print("sample row:", rows[0] if rows else None)
+	# --- Now use the helpers ---
 
-  _normalize_fields_inplace(rows)
-  print("sample normalized row:", rows[0] if rows else None)
+	# Pie chart: practice setting
+	practice_counts = pie_practice_setting_by_interaction(rows)
+	print("Practice setting counts:", practice_counts)
 
-  return
+	# Pie chart: insight categories
+	category_counts = pie_insight_category_counts(rows)
+	category_percentages = pie_insight_category_percentages(rows)
+	print("Insight category counts:", category_counts)
+	print("Insight category %:", category_percentages)
 
-def get_pdf_doc():
-  return
+	# List of congresses
+	congresses = list_unique_congresses(rows)
+	print("Unique congresses:", congresses)
+
+	# Number of interactions
+	n_interactions = count_unique_interactions(rows)
+	print("Number of interactions:", n_interactions)
+
+	# Unique MSLs
+	msls = list_unique_msls(rows)
+	print("Unique MSLs:", msls)
+
+	# after this point you can pass these dicts/lists into your chart/pptx builder
+	return {
+		"practice_counts": practice_counts,
+		"category_counts": category_counts,
+		"category_percentages": category_percentages,
+		"congresses": congresses,
+		"n_interactions": n_interactions,
+		"msls": msls
+	}

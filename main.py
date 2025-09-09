@@ -3,7 +3,7 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.prompting import attach_education_prompts, attach_initial_prompts, attach_clinical_prompts, attach_competitive_prompts
 from app.pptxgenerator import pptx_maker
-from app.demosite import get_powerpoint, get_pdf_doc
+from app.demosite import get_powerpoint
 from typing import List
 
 import io
@@ -107,8 +107,7 @@ async def crm_refresh(request: Request):
 
 @app.get("/reasoning")
 async def send_doc(request: Request):
-  doc = get_pdf_doc()
-  return doc
+  return
 
 @app.get("checking")
 async def check(request: Request):
