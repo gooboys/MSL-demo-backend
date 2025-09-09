@@ -97,7 +97,8 @@ async def pptx_generation(request: Request):
 
 @app.get("/presentation")
 async def send_pptx(request: Request):
-  presentation = get_powerpoint()
+  data = await request.json()
+  presentation = get_powerpoint(data)
   return presentation
 
 @app.get("/crm_refresh")
@@ -106,8 +107,7 @@ async def crm_refresh(request: Request):
 
 @app.get("/reasoning")
 async def send_doc(request: Request):
-  data = await request.json()
-  doc = get_pdf_doc(data)
+  doc = get_pdf_doc()
   return doc
 
 @app.get("checking")
