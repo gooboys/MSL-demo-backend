@@ -106,7 +106,8 @@ async def crm_refresh(request: Request):
 
 @app.get("/reasoning")
 async def send_doc(request: Request):
-  doc = get_pdf_doc()
+  data = await request.json()
+  doc = get_pdf_doc(data)
   return doc
 
 @app.get("checking")
