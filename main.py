@@ -108,3 +108,7 @@ async def crm_refresh(request: Request):
 async def send_doc(request: Request):
   doc = get_pdf_doc()
   return doc
+
+@app.get("checking")
+async def check(request: Request):
+  return
