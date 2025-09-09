@@ -1,4 +1,9 @@
 import json
+import io
+import base64
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 from app.data_analytics.congresses import list_unique_congresses
 from app.data_analytics.hcp_interactions import count_unique_interactions
 from app.data_analytics.icategories import pie_insight_category_counts, pie_insight_category_percentages
@@ -98,23 +103,55 @@ def _normalize_fields_inplace(rows):
       except Exception:
         pass
 
+def _png_b64(png_bytes: bytes) -> str:
+	"""
+	Return a base64-encoded PNG string (no data URI prefix) for JSON-safe transport.
+	"""
+	return base64.b64encode(png_bytes).decode("utf-8")
+
+def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
+	"""
+	Create a pie chart from raw counts and return PNG bytes.
+	Zero-value keys are dropped; empty -> 'No Data'.
+	"""
+	# filter zeros
+	data = {k: v for k, v in (data or {}).items() if v > 0}
+	if not data:
+		data = {"No Data": 1}
+
+	labels = list(data.keys())
+	values = list(data.values())
+
+	fig, ax = plt.subplots(figsize=(6, 4))
+	ax.set_title(title)
+	ax.pie(
+		values,
+		labels=labels,
+		autopct=lambda pct: f"{pct:.0f}%",
+		startangle=90
+	)
+	ax.axis("equal")
+
+	buf = io.BytesIO()
+	plt.savefig(buf, format="png", bbox_inches="tight", dpi=200)
+	plt.close(fig)
+	return buf.getvalue()
+
 def get_powerpoint(data):
 	# unwrap to rows
 	content = data.get("content", data)
 	rows = _extract_rows(content)
 	_normalize_fields_inplace(rows)
 
-	# --- Now use the helpers ---
+	# --- Extracted metrics ---
 
-	# Pie chart: practice setting
+	# Pie chart: practice setting (by unique interaction/ID)
 	practice_counts = pie_practice_setting_by_interaction(rows)
 	print("Practice setting counts:", practice_counts)
 
-	# Pie chart: insight categories
+	# Pie chart: insight categories (raw category-hits, overlaps allowed)
 	category_counts = pie_insight_category_counts(rows)
-	category_percentages = pie_insight_category_percentages(rows)
 	print("Insight category counts:", category_counts)
-	print("Insight category %:", category_percentages)
 
 	# List of congresses
 	congresses = list_unique_congresses(rows)
@@ -128,12 +165,27 @@ def get_powerpoint(data):
 	msls = list_unique_msls(rows)
 	print("Unique MSLs:", msls)
 
-	# after this point you can pass these dicts/lists into your chart/pptx builder
+	# --- Build PNG pies (raw counts) ---
+	practice_pie_png = _create_pie_chart(practice_counts, "HCP Practice Setting")
+	category_pie_png = _create_pie_chart(category_counts, "Insight Categories")
+
+	# Base64 for n8n (JSON-safe)
+	practice_pie_b64 = _png_b64(practice_pie_png)
+	category_pie_b64 = _png_b64(category_pie_png)
+
+	# Return payload for n8n
 	return {
 		"practice_counts": practice_counts,
 		"category_counts": category_counts,
-		"category_percentages": category_percentages,
 		"congresses": congresses,
 		"n_interactions": n_interactions,
-		"msls": msls
+		"msls": msls,
+		"practice_pie_png_b64": practice_pie_b64,
+		"category_pie_png_b64": category_pie_b64,
+		"_meta": {
+			"practice_pie_title": "HCP Practice Setting",
+			"category_pie_title": "Insight Categories",
+			"images_format": "png",
+			"images_encoding": "base64"
+		}
 	}

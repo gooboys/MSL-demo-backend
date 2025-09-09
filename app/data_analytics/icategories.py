@@ -30,12 +30,10 @@ def pie_insight_category_counts(rows: List[Dict]) -> Dict[str, int]:
 				hits[col] += 1
 	return dict(hits)
 
-def pie_insight_category_percentages(rows: List[Dict]) -> Dict[str, float]:
+def pie_insight_category_counts_raw(rows: List[Dict]) -> Dict[str, int]:
 	"""
-	Converts counts to normalized percentages that sum to ~100%.
+	Returns raw category counts (no normalization).
+	Each '1' in a category column contributes one hit.
 	"""
 	counts = pie_insight_category_counts(rows)
-	total = sum(counts.values())
-	if total == 0:
-		return {k: 0.0 for k in INSIGHT_COLS}
-	return {k: (counts.get(k, 0) / total) * 100.0 for k in INSIGHT_COLS}
+	return {k: counts.get(k, 0) for k in INSIGHT_COLS}
