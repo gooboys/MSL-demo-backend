@@ -1,6 +1,7 @@
 import json
 import io
 import base64
+import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -110,32 +111,85 @@ def _png_b64(png_bytes: bytes) -> str:
 	return base64.b64encode(png_bytes).decode("utf-8")
 
 def _create_pie_chart(data: dict[str, int], title: str) -> bytes:
-	"""
-	Create a pie chart from raw counts and return PNG bytes.
-	Zero-value keys are dropped; empty -> 'No Data'.
-	"""
-	# filter zeros
-	data = {k: v for k, v in (data or {}).items() if v > 0}
-	if not data:
-		data = {"No Data": 1}
+  """
+  Create a pie chart (PNG bytes) with:
+    - Legend at the bottom (color-coded key)
+    - Slice labels hidden; counts shown on/near slices
+    - Small slices get count labels outside with leader lines
+  """
+  # Filter zeros & handle empty
+  data = {k: int(v) for k, v in (data or {}).items() if int(v) > 0}
+  if not data:
+    data = {"No Data": 1}
 
-	labels = list(data.keys())
-	values = list(data.values())
+  labels = list(data.keys())
+  values = np.array(list(data.values()), dtype=float)
+  total = values.sum()
 
-	fig, ax = plt.subplots(figsize=(6, 4))
-	ax.set_title(title)
-	ax.pie(
-		values,
-		labels=labels,
-		autopct=lambda pct: f"{pct:.0f}%",
-		startangle=90
-	)
-	ax.axis("equal")
+  # Threshold below which labels go outside (as a % of total)
+  OUTSIDE_THRESHOLD = 6.0  # percent
 
-	buf = io.BytesIO()
-	plt.savefig(buf, format="png", bbox_inches="tight", dpi=200)
-	plt.close(fig)
-	return buf.getvalue()
+  fig, ax = plt.subplots(figsize=(6, 4))
+  ax.set_title(title)
+
+  # Draw pie without labels (legend will handle labels)
+  wedges, _ = ax.pie(
+    values,
+    labels=None,
+    startangle=90,
+    wedgeprops=dict(linewidth=0.5, edgecolor="white")
+  )
+  ax.axis("equal")
+
+  # Add count labels inside or outside depending on size
+  for i, (wedge, val) in enumerate(zip(wedges, values)):
+    pct = (val / total) * 100.0
+    theta = (wedge.theta2 + wedge.theta1) / 2.0
+    theta_rad = np.deg2rad(theta)
+
+    # Default: inside
+    r = 0.7
+    x = r * np.cos(theta_rad)
+    y = r * np.sin(theta_rad)
+    ha = "center"
+    va = "center"
+
+    if pct < OUTSIDE_THRESHOLD:
+      # Outside with a leader line
+      r_out = 1.15
+      x_out = r_out * np.cos(theta_rad)
+      y_out = r_out * np.sin(theta_rad)
+
+      ax.annotate(
+        f"{int(val):,}",
+        xy=(np.cos(theta_rad), np.sin(theta_rad)),  # anchor at unit circle
+        xytext=(x_out, y_out),
+        ha="left" if x_out >= 0 else "right",
+        va="center",
+        arrowprops=dict(arrowstyle="-", lw=0.8, shrinkA=0, shrinkB=0),
+      )
+    else:
+      ax.text(x, y, f"{int(val):,}", ha=ha, va=va, fontsize=10)
+
+  # Legend at the bottom, multi-column if many labels
+  ncol = 2 if len(labels) <= 6 else 3
+  ax.legend(
+    wedges,
+    labels,
+    loc="upper center",
+    bbox_to_anchor=(0.5, -0.08),
+    ncol=ncol,
+    frameon=False,
+    handlelength=1.0,
+    handletextpad=0.6,
+    columnspacing=1.4,
+    fontsize=9,
+  )
+
+  buf = io.BytesIO()
+  plt.savefig(buf, format="png", bbox_inches="tight", dpi=200)
+  plt.close(fig)
+  return buf.getvalue()
 
 def get_powerpoint(data):
 	# unwrap to rows
