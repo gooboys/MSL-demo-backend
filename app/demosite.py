@@ -231,8 +231,8 @@ def data_preprocess(data):
 		"congresses": congresses,
 		"n_interactions": n_interactions,
 		"msls": msls,
-		"practice_pie_png_b64": practice_pie_b64,
-		"category_pie_png_b64": category_pie_b64,
+		"practice_pie_png_b64": practice_pie_png,
+		"category_pie_png_b64": category_pie_png,
     "insight_count": len(rows),
 		"_meta": {
 			"practice_pie_title": "HCP Practice Setting",
