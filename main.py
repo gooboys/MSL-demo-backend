@@ -92,6 +92,14 @@ async def pptx_generation(request: Request):
   rec = data["content"]
   # print("this is rec:\n", rec)
   pptx = pptx_maker(rec)
+  patient = data["patient_management"]
+  education = data["education"]
+  competitive = data["competitive"]
+  print("patient:\n"+patient)
+  print("\n\n")
+  print("education:\n"+education)
+  print("\n\n")
+  print("competitive:\n"+competitive)
   
   if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
 
