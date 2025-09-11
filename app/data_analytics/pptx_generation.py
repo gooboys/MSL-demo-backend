@@ -116,7 +116,10 @@ def replace_text_by_id(slide, shape_id, new_text,
 def full_replacement(stats, patient, education, competitive):
   base_dir = os.path.dirname(os.path.abspath(__file__))
   template_path = os.path.join(base_dir, "Acquis Template.pptx")
-  prs = Presentation("Acquis Template.pptx")
+  print('base_dir: '+ base_dir)
+  print('template_path: '+template_path)
+  prs = Presentation(template_path)
+  
 
   # FILLERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
   # Patient Management Slide
