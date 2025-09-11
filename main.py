@@ -102,11 +102,14 @@ async def send_pptx(request: Request):
   patient = data["patient_management"]
   education = data["education"]
   competitive = data["competitive"]
-  print("patient:\n"+patient)
+  print("patient:\n")
+  print(patient)
   print("\n\n")
-  print("education:\n"+education)
+  print("education:\n")
+  print(education)
   print("\n\n")
-  print("competitive:\n"+competitive)
+  print("competitive:\n")
+  print(competitive)
   if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
   return presentation
 
