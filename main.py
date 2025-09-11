@@ -1,9 +1,10 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.prompting import attach_education_prompts, attach_initial_prompts, attach_clinical_prompts, attach_competitive_prompts
 from app.pptxgenerator import pptx_maker
-from app.demosite import get_powerpoint
+from app.demosite import data_preprocess, second_process
+from app.data_analytics.pptx_generation import full_replacement
 from typing import List
 
 import io
@@ -98,20 +99,26 @@ async def pptx_generation(request: Request):
 @app.get("/presentation")
 async def send_pptx(request: Request):
   data = await request.json()
-  presentation = get_powerpoint(data)
+  statdata = data_preprocess(data)
+  stat = second_process(statdata)
   patient = data["patient_management"]
   education = data["education"]
   competitive = data["competitive"]
-  print("patient:\n")
-  print(patient)
-  print("\n\n")
-  print("education:\n")
-  print(education)
-  print("\n\n")
-  print("competitive:\n")
-  print(competitive)
+  # print("patient:\n")
+  # print(patient)
+  # print("\n\n")
+  # print("education:\n")
+  # print(education)
+  # print("\n\n")
+  # print("competitive:\n")
+  # print(competitive)
+  presentation = full_replacement(stat,patient,education,competitive)
   if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
-  return presentation
+  return Response(
+    content=presentation,
+    media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    headers={"Content-Disposition": "attachment; filename=out.pptx"}
+  )
 
 @app.get("/crm_refresh")
 async def crm_refresh(request: Request):

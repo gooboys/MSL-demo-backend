@@ -188,7 +188,7 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
   plt.close(fig)
   return buf.getvalue()
 
-def get_powerpoint(data):
+def data_preprocess(data):
 	# unwrap to rows
 	content = data.get("content", data)
 	rows = _extract_rows(content)
@@ -233,6 +233,7 @@ def get_powerpoint(data):
 		"msls": msls,
 		"practice_pie_png_b64": practice_pie_b64,
 		"category_pie_png_b64": category_pie_b64,
+    "insight_count": len(rows),
 		"_meta": {
 			"practice_pie_title": "HCP Practice Setting",
 			"category_pie_title": "Insight Categories",
@@ -240,3 +241,21 @@ def get_powerpoint(data):
 			"images_encoding": "base64"
 		}
 	}
+
+def second_process(data):
+  settings = data["practice_counts"]
+  academic_count = settings.get('Academic Center', 0)
+  other_count = sum(v for k, v in settings.items() if k != 'Academic Center')
+  stats = {
+    'graph1': data["category_pie_png_b64"], # Done
+    'graph2': data["practice_pie_png_b64"], # Done
+    'deployedMSLS': len(data["msls"]), # Done
+    'totalInteractions': data["n_interactions"], # Done
+    'AcademicSettings': academic_count, # Done
+    'CommunitySettings': other_count, # Done
+    'InsightCount': data["insight_count"], # Done
+    'Congresses': data["congresses"], # Done
+    'Reporting_Dates':'June-September 2025'
+  }
+  return stats
+
