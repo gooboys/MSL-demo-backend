@@ -92,6 +92,13 @@ async def pptx_generation(request: Request):
   rec = data["content"]
   # print("this is rec:\n", rec)
   pptx = pptx_maker(rec)
+  
+  if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
+
+@app.get("/presentation")
+async def send_pptx(request: Request):
+  data = await request.json()
+  presentation = get_powerpoint(data)
   patient = data["patient_management"]
   education = data["education"]
   competitive = data["competitive"]
@@ -100,13 +107,7 @@ async def pptx_generation(request: Request):
   print("education:\n"+education)
   print("\n\n")
   print("competitive:\n"+competitive)
-  
-  if pptx is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
-
-@app.get("/presentation")
-async def send_pptx(request: Request):
-  data = await request.json()
-  presentation = get_powerpoint(data)
+  if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
   return presentation
 
 @app.get("/crm_refresh")
