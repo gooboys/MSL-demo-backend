@@ -139,7 +139,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=74,
-    new_text="Theme 1 (n="+supporting2+")",
+    new_text="Theme 2 (n="+supporting2+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
@@ -149,7 +149,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=75,
-    new_text="Theme 1 (n="+supporting3+")",
+    new_text="Theme 3 (n="+supporting3+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
@@ -275,7 +275,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=74,
-    new_text="Theme 1 (n="+supporting2+")",
+    new_text="Theme 2 (n="+supporting2+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
@@ -285,7 +285,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=75,
-    new_text="Theme 1 (n="+supporting3+")",
+    new_text="Theme 3 (n="+supporting3+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
@@ -411,7 +411,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=74,
-    new_text="Theme 1 (n="+supporting2+")",
+    new_text="Theme 2 (n="+supporting2+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
@@ -421,7 +421,7 @@ def full_replacement(stats, patient, education, competitive):
   replace_text_by_id(
     pmslide,
     shape_id=75,
-    new_text="Theme 1 (n="+supporting3+")",
+    new_text="Theme 3 (n="+supporting3+")",
     font_name="Century Gothic Bold",  # family only
     font_size=14,
     font_color=(48, 25, 52),
