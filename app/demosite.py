@@ -117,6 +117,17 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
     - Slice labels hidden; counts shown on/near slices
     - Small slices get count labels outside with leader lines
   """
+  # Decides color scheme
+  palette = [
+    "#08306B",  # very dark navy blue
+    "#08519C",  # strong blue
+    "#2171B5",  # medium blue
+    "#41B6C4",  # teal
+    "#7FCDBB",   # aquamarine
+    "#4292C6",  # lighter blue
+    "#6BAED6",  # sky blue
+    "#9ECAE1"  # pale blue
+  ]
   # Filter zeros & handle empty
   data = {k: int(v) for k, v in (data or {}).items() if int(v) > 0}
   if not data:
@@ -129,14 +140,15 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
   # Threshold below which labels go outside (as a % of total)
   OUTSIDE_THRESHOLD = 6.0  # percent
 
-  fig, ax = plt.subplots(figsize=(6, 4))
+  fig, ax = plt.subplots(figsize=(4, 4))
 
   # Draw pie without labels (legend will handle labels)
   wedges, _ = ax.pie(
     values,
     labels=None,
     startangle=90,
-    wedgeprops=dict(linewidth=0.5, edgecolor="white")
+    wedgeprops=dict(linewidth=0.5, edgecolor="white"),
+    colors=palette[:len(values)]
   )
   ax.axis("equal")
 

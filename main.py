@@ -120,14 +120,10 @@ async def send_pptx(request: Request):
     headers={"Content-Disposition": "attachment; filename=out.pptx"}
   )
 
-@app.get("/crm_refresh")
-async def crm_refresh(request: Request):
-  return
-
-@app.get("/reasoning")
-async def send_doc(request: Request):
-  return
-
-@app.get("checking")
-async def check(request: Request):
+@app.get("/pdf")
+async def pdf_generator(request: Request):
+  content = await request.json()
+  data = content["data"]
+  print(data)
+  
   return
