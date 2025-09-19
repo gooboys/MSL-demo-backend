@@ -140,7 +140,7 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
   # Threshold below which labels go outside (as a % of total)
   OUTSIDE_THRESHOLD = 6.0  # percent
 
-  fig, ax = plt.subplots(figsize=(4, 4))
+  fig, ax = plt.subplots(figsize=(5.5, 4))
 
   # Draw pie without labels (legend will handle labels)
   wedges, _ = ax.pie(
@@ -187,7 +187,7 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
     labels,
     loc="upper center",
     bbox_to_anchor=(0.5, -0.08),
-    ncol=ncol,
+    ncol=2,              # ✅ always 2 items per row
     frameon=False,
     handlelength=1.0,
     handletextpad=0.6,
