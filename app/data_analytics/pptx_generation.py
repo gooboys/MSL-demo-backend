@@ -605,7 +605,7 @@ def full_replacement(stats, patient, education, competitive):
     image_bytes=stats['graph2'],
     box_w=6,
     box_h=4,           # size of the bounding box
-    pos_x=8.5,
+    pos_x=8.2,
     pos_y=2,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
