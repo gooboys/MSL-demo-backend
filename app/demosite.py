@@ -232,9 +232,9 @@ def data_preprocess(data):
 	practice_pie_png = _create_pie_chart(practice_counts)
 	category_pie_png = _create_pie_chart(category_counts)
 
-	# Base64 for n8n (JSON-safe)
-	practice_pie_b64 = _png_b64(practice_pie_png)
-	category_pie_b64 = _png_b64(category_pie_png)
+	# # Base64 for n8n (JSON-safe)
+	# practice_pie_b64 = _png_b64(practice_pie_png)
+	# category_pie_b64 = _png_b64(category_pie_png)
 
 	# Return payload for n8n
 	return {
