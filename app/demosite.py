@@ -10,6 +10,7 @@ from app.data_analytics.hcp_interactions import count_unique_interactions
 from app.data_analytics.icategories import pie_insight_category_counts
 from app.data_analytics.psetting import pie_practice_setting_by_interaction
 from app.data_analytics.unique_msls import list_unique_msls
+from app.data_analytics.dates import get_date_range
 import traceback
 print("[demosite] importing congresses...")
 
@@ -201,58 +202,63 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
   return buf.getvalue()
 
 def data_preprocess(data):
-	# unwrap to rows
-	content = data.get("content", data)
-	rows = _extract_rows(content)
-	_normalize_fields_inplace(rows)
+  # unwrap to rows
+  content = data.get("content", data)
+  rows = _extract_rows(content)
+  _normalize_fields_inplace(rows)
 
-	# --- Extracted metrics ---
+  # --- Extracted metrics ---
 
-	# Pie chart: practice setting (by unique interaction/ID)
-	practice_counts = pie_practice_setting_by_interaction(rows)
-	print("Practice setting counts:", practice_counts)
+  # Pie chart: practice setting (by unique interaction/ID)
+  practice_counts = pie_practice_setting_by_interaction(rows)
+  print("Practice setting counts:", practice_counts)
 
-	# Pie chart: insight categories (raw category-hits, overlaps allowed)
-	category_counts = pie_insight_category_counts(rows)
-	print("Insight category counts:", category_counts)
+  # Pie chart: insight categories (raw category-hits, overlaps allowed)
+  category_counts = pie_insight_category_counts(rows)
+  print("Insight category counts:", category_counts)
 
-	# List of congresses
-	congresses = list_unique_congresses(rows)
-	print("Unique congresses:", congresses)
+  # List of congresses
+  congresses = list_unique_congresses(rows)
+  print("Unique congresses:", congresses)
 
-	# Number of interactions
-	n_interactions = count_unique_interactions(rows)
-	print("Number of interactions:", n_interactions)
+  # Number of interactions
+  n_interactions = count_unique_interactions(rows)
+  print("Number of interactions:", n_interactions)
 
-	# Unique MSLs
-	msls = list_unique_msls(rows)
-	print("Unique MSLs:", msls)
+  # Unique MSLs
+  msls = list_unique_msls(rows)
+  print("Unique MSLs:", msls)
 
-	# --- Build PNG pies (raw counts) ---
-	practice_pie_png = _create_pie_chart(practice_counts)
-	category_pie_png = _create_pie_chart(category_counts)
+  # Dates
+  dates = get_date_range(rows)
+  print("Date Range: ", dates)
 
-	# # Base64 for n8n (JSON-safe)
-	# practice_pie_b64 = _png_b64(practice_pie_png)
-	# category_pie_b64 = _png_b64(category_pie_png)
+  # --- Build PNG pies (raw counts) ---
+  practice_pie_png = _create_pie_chart(practice_counts)
+  category_pie_png = _create_pie_chart(category_counts)
 
-	# Return payload for n8n
-	return {
-		"practice_counts": practice_counts,
-		"category_counts": category_counts,
-		"congresses": congresses,
-		"n_interactions": n_interactions,
-		"msls": msls,
-		"practice_pie_png_b64": practice_pie_png,
-		"category_pie_png_b64": category_pie_png,
+  # # Base64 for n8n (JSON-safe)
+  # practice_pie_b64 = _png_b64(practice_pie_png)
+  # category_pie_b64 = _png_b64(category_pie_png)
+
+  # Return payload for n8n
+  return {
+    "practice_counts": practice_counts,
+    "category_counts": category_counts,
+    "congresses": congresses,
+    "n_interactions": n_interactions,
+    "msls": msls,
+    "practice_pie_png_b64": practice_pie_png,
+    "category_pie_png_b64": category_pie_png,
     "insight_count": len(rows),
-		"_meta": {
-			"practice_pie_title": "HCP Practice Setting",
-			"category_pie_title": "Insight Categories",
-			"images_format": "png",
-			"images_encoding": "base64"
-		}
-	}
+    "_meta": {
+      "practice_pie_title": "HCP Practice Setting",
+      "category_pie_title": "Insight Categories",
+      "images_format": "png",
+      "images_encoding": "base64"
+    },
+    "dates": dates
+  }
 
 def second_process(data):
   settings = data["practice_counts"]
@@ -267,7 +273,7 @@ def second_process(data):
     'CommunitySettings': other_count, # Done
     'InsightCount': data["insight_count"], # Done
     'Congresses': data["congresses"], # Done
-    'Reporting_Dates':'June-September 2025'
+    'Reporting_Dates':data["dates"]
   }
   return stats
 
