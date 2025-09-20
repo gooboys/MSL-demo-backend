@@ -4,7 +4,9 @@ from datetime import datetime
 def get_date_range(rows: List[Dict]) -> str:
   dates = []
   for r in rows:
+    print("row:",r)
     d = r.get("Report Date")
+    print(d)
     if d:
       try:
         # parse format m/d/YYYY
