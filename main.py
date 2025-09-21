@@ -178,7 +178,7 @@ async def pdf_generator(request: Request):
   return
 
 # Path for single use case pptx processing and storing
-@app.post("single-slide-ppt")
+@app.post("/single-slide-ppt")
 async def one_slide_generation(request: Request):
   content = await request.json()
   job_id = content["id"]
