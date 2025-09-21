@@ -183,6 +183,8 @@ async def one_slide_generation(request: Request):
   content = await request.json()
   job_id = content["id"]
   data = content["content"]
+  print("id: ", job_id)
+  print("Data: ", data)
 
   return
 
