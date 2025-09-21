@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, HTTPException, Header, BackgroundTasks
 from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from app.prompting import attach_education_prompts, attach_initial_prompts, attach_clinical_prompts, attach_competitive_prompts
@@ -6,6 +6,9 @@ from app.pptxgenerator import pptx_maker
 from app.demosite import data_preprocess, second_process
 from app.data_analytics.pptx_generation import full_replacement
 from typing import List
+from pydantic import BaseModel
+from typing import Optional, Dict, Any
+import httpx, uuid, time
 
 import io
 
@@ -18,6 +21,52 @@ app.add_middleware(
     allow_methods=["*"],  # Allows all methods
     allow_headers=["*"],  # Allows all headers
 )
+
+"""STUFF FOR SINGLE USE TEXT EXTRACTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"""
+# In-memory store for demo; replace with Postgres table
+JOBS: Dict[str, Any] = {}
+TTL_SECONDS = 600  # 10 minutes
+
+def _now() -> int:
+  return int(time.time())
+
+def _sweep_expired() -> None:
+  now = _now()
+  for jid, rec in list(JOBS.items()):
+    if rec.get("expires_at", 0) <= now:
+      del JOBS[jid]
+
+def create_job(id, initial: Optional[Dict[str, Any]] = None) -> str:
+  jid = id
+  now = _now()
+  JOBS[jid] = {
+    "status": "queued",
+    "created_at": now,
+    "updated_at": now,
+    "expires_at": now + TTL_SECONDS,
+    "result": None,
+    "error": None
+  }
+  return jid
+
+# In-place for webhook calls
+webhook = "https://yichao.app.n8n.cloud/webhook-test/b4fcda5e-d82e-4b6b-b3c5-b721375d794a"
+
+@app.post("/single-slide-pptx")
+async def start_single_slide(request: Request):
+  _sweep_expired()
+  data = await request.json()
+  job_id = data["id"]
+  content = data["content"]
+  create_job(job_id)
+  with httpx.Client(timeout=30) as client:
+    resp = client.post(webhook, json=content, headers=None)
+    resp.raise_for_status()
+    if resp.headers.get("content-type", "").startswith("application/json"):
+      return resp.json()
+    return {"status": "accepted", "raw": resp.text}
+
+"""End STUFF FOR SINGLE USE TEXT EXTRACTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"""
 
 @app.get("/")
 async def root():
@@ -127,3 +176,14 @@ async def pdf_generator(request: Request):
   print(data)
   
   return
+
+# Path for single use case pptx processing and storing
+@app.post("single-slide-ppt")
+async def one_slide_generation(request: Request):
+  content = await request.json()
+  job_id = content["id"]
+  data = content["content"]
+
+  return
+
+# Path for single use case pptx fetching
