@@ -366,7 +366,7 @@ def true_replacement(stats, patient, education, competitive, single):
   # Adding Graphs
   insert_image_fit_units(
     prs,
-    slide_idx=3,
+    slide_idx=6,
     image_bytes=stats['graph1'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
@@ -377,7 +377,7 @@ def true_replacement(stats, patient, education, competitive, single):
 
   insert_image_fit_units(
     prs,
-    slide_idx=3,
+    slide_idx=6,
     image_bytes=stats['graph2'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
