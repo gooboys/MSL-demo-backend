@@ -10,6 +10,7 @@ INSIGHT_COLS = [
 	"Education",
 	"Logistics",
 	"Other",
+	"Adverse Event (AE) Insights"
 ]
 
 def pie_insight_category_counts(rows: List[Dict]) -> Dict[str, int]:

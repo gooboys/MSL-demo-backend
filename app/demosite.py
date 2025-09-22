@@ -273,7 +273,8 @@ def second_process(data):
     'CommunitySettings': other_count, # Done
     'InsightCount': data["insight_count"], # Done
     'Congresses': data["congresses"], # Done
-    'Reporting_Dates':data["dates"]
+    'Reporting_Dates':data["dates"],
+    'category_count':data["category_counts"]
   }
   return stats
 
