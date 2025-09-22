@@ -222,37 +222,37 @@ def true_replacement(stats, patient, education, competitive, single):
   # Your existing ref stays keyed by numeric ids; items carries the shape names
   ref = {
     146: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f"), "bold": True},
     148: {"text": safe_get(single, 0, "idea"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
     149: {"text": safe_get(single, 1, "idea"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
     150: {"text": safe_get(single, 3, "idea"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
     151: {"text": safe_get(single, 4, "idea"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
     152: {"text": safe_get(single, 2, "idea"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
     159: {"text": safe_get(single, 0, "value_classification_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     160: {"text": safe_get(single, 1, "value_classification_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     161: {"text": safe_get(single, 3, "value_classification_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     162: {"text": safe_get(single, 4, "value_classification_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     163: {"text": safe_get(single, 2, "value_classification_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     165: {"text": single[0]["categories"].replace("[", "").replace("]", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
     166: {"text": single[1]["categories"].replace("[", "").replace("]", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
     169: {"text": safe_get(single, 0, "categorization_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     170: {"text": safe_get(single, 1, "categorization_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     172: {"text": safe_get(single, 2, "categorization_rationale"),
-          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     # END OF FIRST SLIDE
     187: {"text": stats["Reporting_Dates"],
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
@@ -370,8 +370,8 @@ def true_replacement(stats, patient, education, competitive, single):
     image_bytes=stats['graph1'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
-    pos_x=3.4, 
-    pos_y=2.1,           # top-left position of the box
+    pos_x=3.7, 
+    pos_y=1.9,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
 
@@ -381,8 +381,8 @@ def true_replacement(stats, patient, education, competitive, single):
     image_bytes=stats['graph2'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
-    pos_x=8.4,
-    pos_y=2.1,           # top-left position of the box
+    pos_x=8.5,
+    pos_y=1.9,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
 
