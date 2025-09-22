@@ -5,6 +5,16 @@ from pptx.shapes.group import GroupShape
 from io import BytesIO
 import os
 
+def _set_text_simple(shp, text: str, font="Century Gothic", size=14, color=(40, 36, 111)):
+  tf = getattr(shp, "text_frame", None)
+  if tf is None:
+    raise ValueError(f"no text_frame on {getattr(shp,'name','?')}")
+  tf.text = text or ""   # robust for titles/placeholders
+  run = tf.paragraphs[0].runs[0]
+  if font:  run.font.name = font
+  if size:  run.font.size = Pt(size)
+  if color: run.font.color.rgb = RGBColor(*color)
+
 def _overwrite_shape_text(
   shp,
   text: str,
@@ -65,6 +75,11 @@ def editPPTX(pres, ref: dict[int, dict], items: dict[int, tuple[str, int]]):
   Implementation detail:
     We derive ref_by_name = {shape_name: cfg} from (ref, items) and then edit by name.
   """
+  # IDs that should use the simpler text setter (titles / theme headers)
+  special_ids = {220, 229, 238, 249, 258, 267, 278, 287, 296}
+  # compute their names once so we can branch by name during the slide loop
+  special_names = { items[i][0] for i in special_ids if i in items }
+
   # Build slide_index -> [shape_names]
   slide_to_names: dict[int, list[str]] = {}
   for shape_id, (shape_name, slide_idx) in items.items():
@@ -91,17 +106,25 @@ def editPPTX(pres, ref: dict[int, dict], items: dict[int, tuple[str, int]]):
       if shp is None:
         continue
       try:
-        _overwrite_shape_text(
-          shp,
-          text=cfg.get("text", ""),
-          font_name=cfg.get("font", "Calibri"),
-          font_size=cfg.get("font_size", 12),
-          font_color=cfg.get("font_color", (0, 0, 0)),
-          bold=cfg.get("bold", None),
-          italic=cfg.get("italic", None),
-        )
+        if name in special_names:
+          _set_text_simple(
+            shp,
+            text=cfg.get("text", ""),
+            font=cfg.get("font", "Calibri"),
+            size=cfg.get("font_size", 12),
+            color=cfg.get("font_color", (0, 0, 0)),
+          )
+        else:
+          _overwrite_shape_text(
+            shp,
+            text=cfg.get("text", ""),
+            font_name=cfg.get("font", "Calibri"),
+            font_size=cfg.get("font_size", 12),
+            font_color=cfg.get("font_color", (0, 0, 0)),
+            bold=cfg.get("bold", None),
+            italic=cfg.get("italic", None),
+          )
       except ValueError:
-        # shape exists but has no text frame; skip
         continue
 
 def true_replacement(stats, patient, education, competitive, single):
