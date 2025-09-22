@@ -5,6 +5,7 @@ from app.prompting import attach_education_prompts, attach_initial_prompts, atta
 from app.pptxgenerator import pptx_maker
 from app.demosite import data_preprocess, second_process
 from app.data_analytics.pptx_generation import full_replacement
+from app.pptxdata import true_replacement
 from typing import List
 from pydantic import BaseModel
 from typing import Optional, Dict, Any
@@ -176,6 +177,27 @@ async def pdf_generator(request: Request):
   print(data)
   
   return
+
+# Path for actual pptx generation
+@app.get("/real-pptx")
+async def real_pptx(request: Request):
+  data = await request.json()
+  statdata = data_preprocess(data)
+  stat = second_process(statdata)
+  patient = data["patient_management"]
+  education = data["education"]
+  competitive = data["competitive"]
+  single = data["single"]
+  print(single)
+  return
+  presentation = true_replacement(stat,patient,education,competitive,single)
+  if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
+  return Response(
+    content=presentation,
+    media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    headers={"Content-Disposition": "attachment; filename=out.pptx"}
+  )
+
 
 # Path for single use case pptx processing and storing
 @app.post("/single-slide-ppt")
