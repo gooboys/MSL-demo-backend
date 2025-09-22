@@ -186,9 +186,9 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
   ax.legend(
     wedges,
     labels,
-    loc="upper center",
-    bbox_to_anchor=(0.5, -0.08),
-    ncol=2,              # ✅ always 2 items per row
+    loc="center left",
+    bbox_to_anchor=(1.02, 0.5),
+    ncol=1,              # ✅ always 2 items per row
     frameon=False,
     handlelength=1.0,
     handletextpad=0.6,
