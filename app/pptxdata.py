@@ -5,6 +5,13 @@ from pptx.shapes.group import GroupShape
 from io import BytesIO
 import os
 
+
+# EMU conversions
+EMU_PER_INCH = 914400
+EMU_PER_CM = 360000
+EMU_PER_PT = 12700
+EMU_PER_PX = 9525  # assumes 96 DPI
+
 def _set_text_simple(shp, text: str, font="Century Gothic", size=14, color=(40, 36, 111)):
   tf = getattr(shp, "text_frame", None)
   if tf is None:
@@ -62,6 +69,69 @@ def hex_to_rgb(hex_code: str) -> tuple[int, int, int]:
   if len(s) != 6:
     raise ValueError(f"hex must be 6 chars, got '{hex_code}'")
   return tuple(int(s[i:i+2], 16) for i in (0, 2, 4))
+
+# FOR GRAPHS
+def _to_emu_units(val, units="in"):
+  if isinstance(val, (Inches, Pt, Emu)):
+    return int(val)
+  if isinstance(val, (int, float)):
+    u = units.lower()
+    if u in ("in", "inch", "inches"):
+      return int(val * EMU_PER_INCH)
+    if u in ("cm",):
+      return int(val * EMU_PER_CM)
+    if u in ("pt", "point", "points"):
+      return int(val * EMU_PER_PT)
+    if u in ("px", "pixel", "pixels"):
+      return int(val * EMU_PER_PX)
+  raise TypeError("Position/size must be a number with units in {'in','cm','pt','px'} or a pptx unit (Inches/Pt/Emu).")
+
+def _fit_size(nw_emu, nh_emu, max_w_emu, max_h_emu):
+  if nw_emu <= 0 or nh_emu <= 0:
+    return max_w_emu, max_h_emu
+  r = min(max_w_emu / float(nw_emu), max_h_emu / float(nh_emu))
+  return int(nw_emu * r), int(nh_emu * r)
+
+def insert_image_fit_units(
+  prs,
+  slide_idx: int,
+  image_bytes: bytes,
+  box_w, box_h,           # size of the bounding box
+  pos_x, pos_y,           # top-left position of the box
+  units: str = "in"       # 'in', 'cm', 'pt', or 'px'
+):
+  """
+  Place an image (bytes) on slide `slide_idx`, scaled to FIT inside a box of (box_w x box_h)
+  whose top-left corner is at (pos_x, pos_y), all in the chosen `units`.
+  Returns the picture shape.
+  """
+  # Convert all to EMU
+  max_w_emu = _to_emu_units(box_w, units)
+  max_h_emu = _to_emu_units(box_h, units)
+  left_emu  = _to_emu_units(pos_x, units)
+  top_emu   = _to_emu_units(pos_y, units)
+
+  slide = prs.slides[slide_idx]
+  stream = BytesIO(image_bytes)
+
+  # Add picture at the intended anchor, then size it
+  pic = slide.shapes.add_picture(stream, left_emu, top_emu)
+
+  # Native size (EMU)
+  native_w = pic.width
+  native_h = pic.height
+
+  # Compute fit size
+  fit_w, fit_h = _fit_size(native_w, native_h, max_w_emu, max_h_emu)
+
+  # Apply size and keep anchored to the same top-left
+  pic.width = fit_w
+  pic.height = fit_h
+  pic.left = left_emu
+  pic.top = top_emu
+
+  return pic
+
 
 def editPPTX(pres, ref: dict[int, dict], items: dict[int, tuple[str, int]]):
   """
@@ -213,18 +283,18 @@ def true_replacement(stats, patient, education, competitive, single):
     213: {"text": str(catcount[8]),
           "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
     # END SLIDE 2, INPUT GRAPHS LATER
-    220: {"text": "test",
+    220: {"text": "Theme 1 (n="+str(len(patient[0]["other_sources"])+3)+")",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
     229: {"text": "Theme 2 (n="+str(len(patient[1]["other_sources"])+3)+")",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
     238: {"text": "Theme 3 (n="+str(len(patient[2]["other_sources"])+3)+")",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
     222: {"text": patient[0]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     231: {"text": patient[1]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     240: {"text": patient[2]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     224: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in patient[0]["representative_quotes"]]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     233: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in patient[1]["representative_quotes"]]),
@@ -245,11 +315,11 @@ def true_replacement(stats, patient, education, competitive, single):
     267: {"text": "Theme 3 (n="+str(len(education[2]["other_sources"])+3)+")",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
     251: {"text": education[0]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     260: {"text": education[1]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     269: {"text": education[2]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     253: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in education[0]["representative_quotes"]]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     262: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in education[1]["representative_quotes"]]),
@@ -270,11 +340,11 @@ def true_replacement(stats, patient, education, competitive, single):
     296: {"text": "Theme 3 (n="+str(len(competitive[2]["other_sources"])+3)+")",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
     280: {"text": competitive[0]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     289: {"text": competitive[1]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     298: {"text": competitive[2]["gap_definition"],
-          "font": "Century Gothic", "font_size": 12, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     282: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in competitive[0]["representative_quotes"]]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     291: {"text": "\n".join([f"id {q['id']}: '{q['quote']}'" for q in competitive[1]["representative_quotes"]]),
