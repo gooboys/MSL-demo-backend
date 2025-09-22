@@ -150,9 +150,9 @@ def true_replacement(stats, patient, education, competitive, single):
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
     163: {"text": safe_get(single, 2, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    165: {"text": single[0]["categories"][0],
+    165: {"text": single[0]["categories"],
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
-    166: {"text": single[0]["categories"][1],
+    166: {"text": single[0]["categories"],
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
     169: {"text": safe_get(single, 0, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
@@ -171,6 +171,26 @@ def true_replacement(stats, patient, education, competitive, single):
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
     195: {"text": str(stats['InsightCount']),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
+    197: {"text": str(catcount[0]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    199: {"text": str(catcount[1]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    201: {"text": str(catcount[2]),
+      "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    203: {"text": str(catcount[3]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    205: {"text": str(catcount[4]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    207: {"text": str(catcount[5]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    209: {"text": str(catcount[6]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    211: {"text": str(catcount[7]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    213: {"text": str(catcount[8]),
+          "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    # END SLIDE 2, INPUT GRAPHS LATER
+
   }
 
   # items: id -> (shape_name, slide_idx). We will edit by shape_name.
