@@ -368,9 +368,9 @@ def true_replacement(stats, patient, education, competitive, single):
     prs,
     slide_idx=6,
     image_bytes=stats['graph1'],
-    box_w=4.5,
+    box_w=4.3,
     box_h=3,           # size of the bounding box
-    pos_x=3.7, 
+    pos_x=3.6, 
     pos_y=1.9,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
