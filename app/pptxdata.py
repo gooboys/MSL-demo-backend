@@ -370,8 +370,8 @@ def true_replacement(stats, patient, education, competitive, single):
     image_bytes=stats['graph1'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
-    pos_x=4, 
-    pos_y=1.75,           # top-left position of the box
+    pos_x=3.5, 
+    pos_y=2,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
 
@@ -381,8 +381,8 @@ def true_replacement(stats, patient, education, competitive, single):
     image_bytes=stats['graph2'],
     box_w=4.5,
     box_h=3,           # size of the bounding box
-    pos_x=8.75,
-    pos_y=1.75,           # top-left position of the box
+    pos_x=8.25,
+    pos_y=2,           # top-left position of the box
     units="in"       # 'in', 'cm', 'pt', or 'px'
   )
 
