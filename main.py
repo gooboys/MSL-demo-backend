@@ -187,6 +187,7 @@ async def real_pptx(request: Request):
   patient = data["patient_management"]
   education = data["education"]
   competitive = data["competitive"]
+  print("single")
   single = data["single"]
   print(single)
   return
