@@ -190,7 +190,6 @@ async def real_pptx(request: Request):
   print("single")
   single = data["single"]
   print(single)
-  return
   presentation = true_replacement(stat,patient,education,competitive,single)
   if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
   return Response(
