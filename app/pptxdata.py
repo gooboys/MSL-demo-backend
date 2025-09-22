@@ -363,6 +363,29 @@ def true_replacement(stats, patient, education, competitive, single):
   # items: id -> (shape_name, slide_idx). We will edit by shape_name.
   items = {146: ('Google Shape;518;p44', 5), 148: ('Google Shape;520;p44', 5), 149: ('Google Shape;521;p44', 5), 150: ('Google Shape;522;p44', 5), 151: ('Google Shape;523;p44', 5), 152: ('Google Shape;524;p44', 5), 153: ('Google Shape;530;p44', 5), 154: ('Google Shape;531;p44', 5), 155: ('Google Shape;532;p44', 5), 156: ('Google Shape;533;p44', 5), 157: ('Google Shape;534;p44', 5), 159: ('Google Shape;536;p44', 5), 160: ('Google Shape;537;p44', 5), 161: ('Google Shape;538;p44', 5), 162: ('Google Shape;539;p44', 5), 163: ('Google Shape;540;p44', 5), 165: ('Google Shape;542;p44', 5), 166: ('Google Shape;543;p44', 5), 167: ('Google Shape;544;p44', 5), 168: ('Google Shape;545;p44', 5), 169: ('Google Shape;546;p44', 5), 170: ('Google Shape;547;p44', 5), 171: ('Google Shape;548;p44', 5), 172: ('Google Shape;549;p44', 5), 185: ('Google Shape;581;p45', 6), 186: ('Google Shape;582;p45', 6), 187: ('Google Shape;584;p45', 6), 189: ('Google Shape;587;p45', 6), 191: ('Google Shape;590;p45', 6), 193: ('Google Shape;593;p45', 6), 195: ('Google Shape;596;p45', 6), 197: ('Google Shape;599;p45', 6), 198: ('Google Shape;600;p45', 6), 199: ('Google Shape;602;p45', 6), 200: ('Google Shape;603;p45', 6), 201: ('Google Shape;605;p45', 6), 202: ('Google Shape;606;p45', 6), 203: ('Google Shape;608;p45', 6), 204: ('Google Shape;609;p45', 6), 205: ('Google Shape;611;p45', 6), 206: ('Google Shape;612;p45', 6), 207: ('Google Shape;614;p45', 6), 208: ('Google Shape;615;p45', 6), 209: ('Google Shape;617;p45', 6), 210: ('Google Shape;618;p45', 6), 211: ('Google Shape;620;p45', 6), 212: ('Google Shape;621;p45', 6), 213: ('Google Shape;623;p45', 6), 220: ('Google Shape;635;p46', 7), 222: ('Google Shape;637;p46', 7), 224: ('Google Shape;639;p46', 7), 226: ('Google Shape;641;p46', 7), 229: ('Google Shape;644;p46', 7), 231: ('Google Shape;646;p46', 7), 233: ('Google Shape;648;p46', 7), 235: ('Google Shape;650;p46', 7), 238: ('Google Shape;653;p46', 7), 240: ('Google Shape;655;p46', 7), 242: ('Google Shape;657;p46', 7), 244: ('Google Shape;659;p46', 7), 249: ('Google Shape;669;p47', 8), 250: ('Google Shape;670;p47', 8), 251: ('Google Shape;671;p47', 8), 253: ('Google Shape;673;p47', 8), 255: ('Google Shape;675;p47', 8), 258: ('Google Shape;678;p47', 8), 260: ('Google Shape;680;p47', 8), 262: ('Google Shape;682;p47', 8), 264: ('Google Shape;684;p47', 8), 267: ('Google Shape;687;p47', 8), 269: ('Google Shape;689;p47', 8), 271: ('Google Shape;691;p47', 8), 273: ('Google Shape;693;p47', 8), 278: ('Google Shape;703;p48', 9), 280: ('Google Shape;705;p48', 9), 282: ('Google Shape;707;p48', 9), 284: ('Google Shape;709;p48', 9), 287: ('Google Shape;712;p48', 9), 289: ('Google Shape;714;p48', 9), 291: ('Google Shape;716;p48', 9), 293: ('Google Shape;718;p48', 9), 296: ('Google Shape;721;p48', 9), 298: ('Google Shape;723;p48', 9), 300: ('Google Shape;725;p48', 9), 302: ('Google Shape;727;p48', 9)}
 
+  # Adding Graphs
+  insert_image_fit_units(
+    prs,
+    slide_idx=3,
+    image_bytes=stats['graph1'],
+    box_w=4.5,
+    box_h=3,           # size of the bounding box
+    pos_x=3.65, 
+    pos_y=1.5,           # top-left position of the box
+    units="in"       # 'in', 'cm', 'pt', or 'px'
+  )
+
+  insert_image_fit_units(
+    prs,
+    slide_idx=3,
+    image_bytes=stats['graph2'],
+    box_w=4.5,
+    box_h=3,           # size of the bounding box
+    pos_x=8.5,
+    pos_y=1.5,           # top-left position of the box
+    units="in"       # 'in', 'cm', 'pt', or 'px'
+  )
+
   editPPTX(prs, ref, items)
   buf = BytesIO()
   prs.save(buf)
