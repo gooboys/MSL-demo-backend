@@ -119,7 +119,7 @@ def true_replacement(stats, patient, education, competitive, single):
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
     191: {"text": str(stats["deployedMSLS"]),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    193: {"text": "Total: " + str(stats["n_interactions"]),
+    193: {"text": "Total: " + str(stats["totalInteractions"]),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
     189: {"text": "\n".join(stats['Congresses']),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
