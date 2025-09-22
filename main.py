@@ -190,12 +190,15 @@ async def real_pptx(request: Request):
   print("single")
   single = data["single"]
   print(single)
-  presentation = true_replacement(stat,patient,education,competitive,single)
-  if presentation is None: return JSONResponse(status_code=500, content={"error":"Failed to generate pptx"})
+  
+  pptx_bytes = true_replacement(stat, patient, education, competitive, single)
+  if not pptx_bytes:
+    raise HTTPException(status_code=500, detail="Failed to generate pptx")
+
   return Response(
-    content=presentation,
+    content=pptx_bytes,
     media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-    headers={"Content-Disposition": "attachment; filename=out.pptx"}
+    headers={"Content-Disposition": 'attachment; filename="out.pptx"'},
   )
 
 

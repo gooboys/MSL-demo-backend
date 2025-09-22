@@ -131,4 +131,5 @@ def true_replacement(stats, patient, education, competitive, single):
   editPPTX(prs, ref, items)
   buf = BytesIO()
   prs.save(buf)
-  return buf
+  buf.seek(0)  # good hygiene
+  return buf.getvalue()
