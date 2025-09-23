@@ -104,17 +104,17 @@ def _set_text_simple(shp, text: str, font="Century Gothic", size=14, color=(40, 
   if tf is None:
     raise ValueError(f"no text_frame on {getattr(shp,'name','?')}")
   tf.text = text or ""
-  p0 = tf.paragraphs[0]
-  if not p0.runs:
-    run = p0.add_run()
-    run.text = text or ""
-  run = p0.runs[0]
-  if font:
-    run.font.name = font
-  if size:
-    run.font.size = Pt(size)
-  if color:
-    run.font.color.rgb = RGBColor(*color)
+
+  # Style *all* paragraphs and runs
+  for p in tf.paragraphs:
+    # ensure at least one run exists
+    if not p.runs:
+      r = p.add_run()
+      r.text = ""
+    for r in p.runs:
+      if font:  r.font.name = font
+      if size:  r.font.size = Pt(size)
+      if color: r.font.color.rgb = RGBColor(*color)
 
 def _overwrite_shape_text(
   shp,
