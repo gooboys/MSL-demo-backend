@@ -292,158 +292,158 @@ def true_replacement(
 
   # Build ref (id -> cfg). NOTE: categories fields normalized to text via editor.
   ref: Dict[int, Dict[str, Any]] = {
-    146: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
+    143: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f"), "bold": True},
-    148: {"text": safe_get(single, 0, "idea"),
+    145: {"text": safe_get(single, 0, "idea"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
-    149: {"text": safe_get(single, 1, "idea"),
+    146: {"text": safe_get(single, 1, "idea"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
-    150: {"text": safe_get(single, 3, "idea"),
+    157: {"text": safe_get(single, 3, "idea"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
-    151: {"text": safe_get(single, 4, "idea"),
+    148: {"text": safe_get(single, 4, "idea"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
-    152: {"text": safe_get(single, 2, "idea"),
+    149: {"text": safe_get(single, 2, "idea"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
 
-    159: {"text": safe_get(single, 0, "value_classification_rationale"),
+    156: {"text": safe_get(single, 0, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    160: {"text": safe_get(single, 1, "value_classification_rationale"),
+    157: {"text": safe_get(single, 1, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    161: {"text": safe_get(single, 3, "value_classification_rationale"),
+    158: {"text": safe_get(single, 3, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    162: {"text": safe_get(single, 4, "value_classification_rationale"),
+    159: {"text": safe_get(single, 4, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    163: {"text": safe_get(single, 2, "value_classification_rationale"),
+    160: {"text": safe_get(single, 2, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # categories: accept list or str
-    165: {"text": _textify_categories(safe_get(single, 0, "categories")),
+    162: {"text": _textify_categories(safe_get(single, 0, "categories")),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
-    166: {"text": _textify_categories(safe_get(single, 1, "categories")),
+    163: {"text": _textify_categories(safe_get(single, 1, "categories")),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
 
-    169: {"text": safe_get(single, 0, "categorization_rationale"),
+    166: {"text": safe_get(single, 0, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    170: {"text": safe_get(single, 1, "categorization_rationale"),
+    167: {"text": safe_get(single, 1, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    172: {"text": safe_get(single, 2, "categorization_rationale"),
+    169: {"text": safe_get(single, 2, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 2
-    187: {"text": stats.get("Reporting_Dates", ""),
+    181: {"text": stats.get("Reporting_Dates", ""),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    191: {"text": str(stats.get("deployedMSLS", "")),
+    185: {"text": str(stats.get("deployedMSLS", "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    193: {"text": "Total: " + str(stats.get("totalInteractions", "")),
+    187: {"text": "Total: " + str(stats.get("totalInteractions", "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    189: {"text": "\n".join(stats.get('Congresses', [])),
+    183: {"text": "\n".join(stats.get('Congresses', [])),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    195: {"text": str(stats.get('InsightCount', "")),
+    189: {"text": str(stats.get('InsightCount', "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
 
-    197: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    199: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    201: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    203: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    205: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    207: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    209: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    211: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    213: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    191: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    193: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    195: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    197: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    199: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    201: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    203: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    205: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    207: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
 
     # Slide 3: Patient
-    220: {"text": f"Theme 1 (n={len(patient[0].get('other_sources', [])) + 3})",
+    214: {"text": f"Theme 1 (n={len(patient[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    229: {"text": f"Theme 2 (n={len(patient[1].get('other_sources', [])) + 3})",
+    223: {"text": f"Theme 2 (n={len(patient[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    238: {"text": f"Theme 3 (n={len(patient[2].get('other_sources', [])) + 3})",
+    232: {"text": f"Theme 3 (n={len(patient[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    222: {"text": patient[0].get("gap_definition", ""),
+    216: {"text": patient[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    231: {"text": patient[1].get("gap_definition", ""),
+    225: {"text": patient[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    240: {"text": patient[2].get("gap_definition", ""),
+    234: {"text": patient[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    224: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[0].get("representative_quotes", [])]),
+    218: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    233: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[1].get("representative_quotes", [])]),
+    227: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    242: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[2].get("representative_quotes", [])]),
+    236: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    226: {"text": "1: " + (patient[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    220: {"text": "1: " + (patient[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (patient[0].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    235: {"text": "1: " + (patient[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    229: {"text": "1: " + (patient[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (patient[1].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    244: {"text": "1: " + (patient[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    238: {"text": "1: " + (patient[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (patient[2].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 4: Education
-    249: {"text": f"Theme 1 (n={len(education[0].get('other_sources', [])) + 3})",
+    243: {"text": f"Theme 1 (n={len(education[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    258: {"text": f"Theme 2 (n={len(education[1].get('other_sources', [])) + 3})",
+    252: {"text": f"Theme 2 (n={len(education[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    267: {"text": f"Theme 3 (n={len(education[2].get('other_sources', [])) + 3})",
+    261: {"text": f"Theme 3 (n={len(education[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    251: {"text": education[0].get("gap_definition", ""),
+    245: {"text": education[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    260: {"text": education[1].get("gap_definition", ""),
+    254: {"text": education[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    269: {"text": education[2].get("gap_definition", ""),
+    263: {"text": education[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    253: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[0].get("representative_quotes", [])]),
+    247: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    262: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[1].get("representative_quotes", [])]),
+    256: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    271: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[2].get("representative_quotes", [])]),
+    265: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    255: {"text": "1: " + (education[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    249: {"text": "1: " + (education[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (education[0].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    264: {"text": "1: " + (education[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    258: {"text": "1: " + (education[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (education[1].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    273: {"text": "1: " + (education[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    267: {"text": "1: " + (education[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (education[2].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 5: Competitive
-    278: {"text": f"Theme 1 (n={len(competitive[0].get('other_sources', [])) + 3})",
+    272: {"text": f"Theme 1 (n={len(competitive[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    287: {"text": f"Theme 2 (n={len(competitive[1].get('other_sources', [])) + 3})",
+    281: {"text": f"Theme 2 (n={len(competitive[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    296: {"text": f"Theme 3 (n={len(competitive[2].get('other_sources', [])) + 3})",
+    290: {"text": f"Theme 3 (n={len(competitive[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    280: {"text": competitive[0].get("gap_definition", ""),
+    274: {"text": competitive[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    289: {"text": competitive[1].get("gap_definition", ""),
+    283: {"text": competitive[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    298: {"text": competitive[2].get("gap_definition", ""),
+    292: {"text": competitive[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    282: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[0].get("representative_quotes", [])]),
+    276: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    291: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[1].get("representative_quotes", [])]),
+    285: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    300: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]),
+    294: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    284: {"text": "1: " + (competitive[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    278: {"text": "1: " + (competitive[0].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (competitive[0].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    293: {"text": "1: " + (competitive[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    287: {"text": "1: " + (competitive[1].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (competitive[1].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    302: {"text": "1: " + (competitive[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
+    296: {"text": "1: " + (competitive[2].get("root_cause_questions", ["",""])[0] or "") + "\n" +
                   "2: " + (competitive[2].get("root_cause_questions", ["",""])[1] or ""),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
   }
