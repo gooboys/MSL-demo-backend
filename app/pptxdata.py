@@ -551,8 +551,8 @@ def true_replacement(
     prs,
     slide_idx=6,
     image_bytes=stats['graph1'],
-    box_w=4.3,
-    box_h=3,
+    box_w=4.2,
+    box_h=2.4,
     pos_x=3.65,
     pos_y=1.9,
     units="in"

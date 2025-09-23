@@ -7,7 +7,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from app.data_analytics.congresses import list_unique_congresses
 from app.data_analytics.hcp_interactions import count_unique_interactions
-from app.data_analytics.icategories import pie_insight_category_counts
+from app.data_analytics.icategories import pie_insight_category_counts, kol_tier_counts_pretty
 from app.data_analytics.psetting import pie_practice_setting_by_interaction
 from app.data_analytics.unique_msls import list_unique_msls
 from app.data_analytics.dates import get_date_range
@@ -218,6 +218,10 @@ def data_preprocess(data):
   category_counts = pie_insight_category_counts(rows)
   print("Insight category counts:", category_counts)
 
+  # Pie chart: Counts different KOL Tiers
+  kol_tier_counts = kol_tier_counts_pretty(rows)
+  print("KOL Tier counts:", kol_tier_counts)
+
   # List of congresses
   congresses = list_unique_congresses(rows)
   print("Unique congresses:", congresses)
@@ -236,7 +240,7 @@ def data_preprocess(data):
 
   # --- Build PNG pies (raw counts) ---
   practice_pie_png = _create_pie_chart(practice_counts)
-  category_pie_png = _create_pie_chart(category_counts)
+  category_pie_png = _create_pie_chart(kol_tier_counts)
 
   # # Base64 for n8n (JSON-safe)
   # practice_pie_b64 = _png_b64(practice_pie_png)
