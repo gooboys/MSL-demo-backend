@@ -2,6 +2,8 @@ from pptx import Presentation
 from pptx.util import Pt, Inches, Emu
 from pptx.dml.color import RGBColor
 from pptx.shapes.group import GroupShape
+from pptx.oxml.xmlchemy import OxmlElement
+from pptx.oxml.ns import qn
 from io import BytesIO
 import os
 from typing import Dict, Any, Tuple, List, Set
@@ -34,6 +36,28 @@ def _fit_size(nw_emu, nh_emu, max_w_emu, max_h_emu):
     return max_w_emu, max_h_emu
   r = min(max_w_emu / float(nw_emu), max_h_emu / float(nh_emu))
   return int(nw_emu * r), int(nh_emu * r)
+
+# ======================
+# Bullet point spacing utils
+# ======================
+
+def _add_bullet_spacing(shp, after_pt: int = 4):
+  """
+  Adds a bit of space *after* each paragraph except the last.
+  This visually separates bullets. No effect if there's only one paragraph.
+  """
+  tf = getattr(shp, "text_frame", None)
+  if tf is None:
+    return
+  paras = list(tf.paragraphs)
+  if len(paras) < 2:
+    return
+  last = len(paras) - 1
+  for i, p in enumerate(paras):
+    if not (getattr(p, "text", "") or "").strip():
+      continue
+    # Add spacing between bullets, not after the last one
+    p.space_after = Pt(after_pt if i < last else 0)
 
 # ======================
 # Color & text utils
@@ -116,6 +140,7 @@ def _set_text_simple(shp, text: str, font="Century Gothic", size=14, color=(40, 
       if size:  r.font.size = Pt(size)
       if color: r.font.color.rgb = RGBColor(*color)
 
+
 def _overwrite_shape_text(
   shp,
   text: str,
@@ -124,24 +149,87 @@ def _overwrite_shape_text(
   font_color: tuple[int, int, int] = (0, 0, 0),
   bold: bool | None = None,
   italic: bool | None = None,
+  bullet_gap_pt: int = 4,
 ):
   tf = getattr(shp, "text_frame", None)
   if tf is None:
     raise ValueError(f"Shape name={getattr(shp, 'name', '?')} has no text frame")
-  tf.clear()
-  p = tf.paragraphs[0]
-  run = p.add_run()
-  run.text = text or ""
-  if font_name:
-    run.font.name = font_name
-  if font_size:
-    run.font.size = Pt(font_size)
-  if font_color:
-    run.font.color.rgb = RGBColor(*font_color)
-  if bold is not None:
-    run.font.bold = bold
-  if italic is not None:
-    run.font.italic = italic
+
+  # 1) Write text as paragraphs (preserves \n)
+  tf.text = text or ""
+  paras = list(tf.paragraphs)
+
+  # 2) Style all runs uniformly
+  for p in paras:
+    if not p.runs:
+      r = p.add_run(); r.text = ""
+    for r in p.runs:
+      if font_name:  r.font.name = font_name
+      if font_size:  r.font.size = Pt(font_size)
+      if font_color: r.font.color.rgb = RGBColor(*font_color)
+      if bold is not None:   r.font.bold = bold
+      if italic is not None: r.font.italic = italic
+
+  # 3) If multiple paragraphs, try to FORCE bullets via XML and add spacing
+  if len(paras) > 1:
+    forced_any = False
+    for i, p in enumerate(paras):
+      # indent level (0 = top level)
+      try:
+        p.level = 0
+      except Exception:
+        pass
+
+      # Clear any existing bullet settings, then add buChar •
+      try:
+        pPr = p._element.get_or_add_pPr()
+        # remove buNone/buAutoNum/buChar/buBlip if present
+        for tag in ("a:buNone", "a:buAutoNum", "a:buChar", "a:buBlip"):
+          el = pPr.find(qn(tag))
+          if el is not None:
+            pPr.remove(el)
+        buChar = OxmlElement("a:buChar")
+        buChar.set("char", u"\u2022")
+        pPr.append(buChar)
+
+        # Hanging indent so text aligns after the bullet
+        # marL = 18pt, indent = -12pt (in EMUs: 1pt = 12700 EMU)
+        marL = int(18 * 12700)
+        indent = int(-12 * 12700)
+        pPr.set("marL", str(marL))
+        pPr.set("indent", str(indent))
+
+        forced_any = True
+      except Exception:
+        # If XML manipulation fails, we'll fall back below.
+        pass
+
+      # Space between bullets (except last)
+      try:
+        p.space_after = Pt(bullet_gap_pt if i < len(paras) - 1 else 0)
+      except Exception:
+        pass
+
+    # 4) Fallback: if bullets still not showing, prefix a visible glyph and keep spacing
+    if not forced_any:
+      for i, p in enumerate(paras):
+        # skip empty lines
+        t = p.text or ""
+        if t.strip():
+          # add a visible bullet glyph
+          if not t.lstrip().startswith("•"):
+            p.clear()  # clear runs safely, keep paragraph
+            r = p.add_run()
+            r.text = f"• {t}"
+            if font_name:  r.font.name = font_name
+            if font_size:  r.font.size = Pt(font_size)
+            if font_color: r.font.color.rgb = RGBColor(*font_color)
+            if bold is not None:   r.font.bold = bold
+            if italic is not None: r.font.italic = italic
+        try:
+          p.space_after = Pt(bullet_gap_pt if i < len(paras) - 1 else 0)
+        except Exception:
+          pass
 
 # ======================
 # Image placement
@@ -325,7 +413,7 @@ def true_replacement(
     166: {"text": safe_get(single, 0, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     167: {"text": safe_get(single, 1, "categorization_rationale"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f")},
     169: {"text": safe_get(single, 2, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
@@ -341,15 +429,15 @@ def true_replacement(
     189: {"text": str(stats.get('InsightCount', "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
 
-    191: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    193: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    195: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    197: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    199: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    201: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    203: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    205: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
-    207: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("325fa7")},
+    191: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    193: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    195: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    197: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    199: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    201: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    203: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    205: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    207: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
 
     # Slide 3: Patient
     214: {"text": f"Theme 1 (n={len(patient[0].get('other_sources', [])) + 3})",
@@ -455,7 +543,7 @@ def true_replacement(
   }
 
   # items: id -> (shape_name, slide_idx_hint).
-  items: Dict[int, Tuple[str, int]] = {100: ('Google Shape;444;p43', 4), 101: ('Google Shape;445;p43', 4), 102: ('Google Shape;446;p43', 4), 103: ('Google Shape;447;p43', 4), 104: ('Google Shape;448;p43', 4), 105: ('Google Shape;449;p43', 4), 106: ('Google Shape;450;p43', 4), 107: ('Google Shape;451;p43', 4), 108: ('Google Shape;452;p43', 4), 109: ('Google Shape;453;p43', 4), 110: ('Google Shape;459;p43', 4), 111: ('Google Shape;460;p43', 4), 112: ('Google Shape;461;p43', 4), 113: ('Google Shape;462;p43', 4), 114: ('Google Shape;463;p43', 4), 115: ('Google Shape;464;p43', 4), 116: ('Google Shape;465;p43', 4), 117: ('Google Shape;466;p43', 4), 118: ('Google Shape;467;p43', 4), 119: ('Google Shape;468;p43', 4), 120: ('Google Shape;469;p43', 4), 121: ('Google Shape;470;p43', 4), 122: ('Google Shape;471;p43', 4), 123: ('Google Shape;472;p43', 4), 124: ('Google Shape;473;p43', 4), 125: ('Google Shape;474;p43', 4), 126: ('Google Shape;475;p43', 4), 127: ('Google Shape;476;p43', 4), 128: ('Google Shape;477;p43', 4), 129: ('Google Shape;478;p43', 4), 130: ('Google Shape;479;p43', 4), 131: ('Google Shape;492;p43', 4), 132: ('Google Shape;499;p44', 5), 133: ('Google Shape;500;p44', 5), 134: ('Google Shape;502;p44', 5), 135: ('Google Shape;503;p44', 5), 136: ('Google Shape;504;p44', 5), 137: ('Google Shape;506;p44', 5), 138: ('Google Shape;507;p44', 5), 139: ('Google Shape;508;p44', 5), 140: ('Google Shape;510;p44', 5), 141: ('Google Shape;511;p44', 5), 142: ('Google Shape;512;p44', 5), 143: ('Google Shape;513;p44', 5), 144: ('Google Shape;514;p44', 5), 145: ('Google Shape;515;p44', 5), 146: ('Google Shape;516;p44', 5), 147: ('Google Shape;517;p44', 5), 148: ('Google Shape;518;p44', 5), 149: ('Google Shape;519;p44', 5), 150: ('Google Shape;525;p44', 5), 151: ('Google Shape;526;p44', 5), 152: ('Google Shape;527;p44', 5), 153: ('Google Shape;528;p44', 5), 154: ('Google Shape;529;p44', 5), 155: ('Google Shape;530;p44', 5), 156: ('Google Shape;531;p44', 5), 157: ('Google Shape;532;p44', 5), 158: ('Google Shape;533;p44', 5), 159: ('Google Shape;534;p44', 5), 160: ('Google Shape;535;p44', 5), 161: ('Google Shape;536;p44', 5), 162: ('Google Shape;537;p44', 5), 163: ('Google Shape;538;p44', 5), 164: ('Google Shape;539;p44', 5), 165: ('Google Shape;540;p44', 5), 166: ('Google Shape;541;p44', 5), 167: ('Google Shape;542;p44', 5), 168: ('Google Shape;543;p44', 5), 169: ('Google Shape;544;p44', 5), 170: ('Google Shape;545;p44', 5), 171: ('Google Shape;558;p44', 5), 172: ('Google Shape;564;p45', 6), 173: ('Google Shape;565;p45', 6), 174: ('Google Shape;566;p45', 6), 175: ('Google Shape;567;p45', 6), 176: ('Google Shape;568;p45', 6), 177: ('Google Shape;569;p45', 6), 178: ('Google Shape;570;p45', 6), 179: ('Google Shape;571;p45', 6), 180: ('Google Shape;572;p45', 6), 181: ('Google Shape;574;p45', 6), 182: ('Google Shape;575;p45', 6), 183: ('Google Shape;577;p45', 6), 184: ('Google Shape;578;p45', 6), 185: ('Google Shape;580;p45', 6), 186: ('Google Shape;581;p45', 6), 187: ('Google Shape;583;p45', 6), 188: ('Google Shape;584;p45', 6), 189: ('Google Shape;586;p45', 6), 190: ('Google Shape;587;p45', 6), 191: ('Google Shape;589;p45', 6), 192: ('Google Shape;590;p45', 6), 193: ('Google Shape;592;p45', 6), 194: ('Google Shape;593;p45', 6), 195: ('Google Shape;595;p45', 6), 196: ('Google Shape;596;p45', 6), 197: ('Google Shape;598;p45', 6), 198: ('Google Shape;599;p45', 6), 199: ('Google Shape;601;p45', 6), 200: ('Google Shape;602;p45', 6), 201: ('Google Shape;604;p45', 6), 202: ('Google Shape;605;p45', 6), 203: ('Google Shape;607;p45', 6), 204: ('Google Shape;608;p45', 6), 205: ('Google Shape;610;p45', 6), 206: ('Google Shape;611;p45', 6), 207: ('Google Shape;613;p45', 6), 208: ('Google Shape;614;p45', 6), 209: ('Google Shape;615;p45', 6), 210: ('Google Shape;621;p46', 7), 211: ('Google Shape;622;p46', 7), 212: ('Google Shape;623;p46', 7), 213: ('Google Shape;624;p46', 7), 214: ('Google Shape;625;p46', 7), 215: ('Google Shape;626;p46', 7), 216: ('Google Shape;627;p46', 7), 217: ('Google Shape;628;p46', 7), 218: ('Google Shape;629;p46', 7), 219: ('Google Shape;630;p46', 7), 220: ('Google Shape;631;p46', 7), 221: ('Google Shape;632;p46', 7), 222: ('Google Shape;633;p46', 7), 223: ('Google Shape;634;p46', 7), 224: ('Google Shape;635;p46', 7), 225: ('Google Shape;636;p46', 7), 226: ('Google Shape;637;p46', 7), 227: ('Google Shape;638;p46', 7), 228: ('Google Shape;639;p46', 7), 229: ('Google Shape;640;p46', 7), 230: ('Google Shape;641;p46', 7), 231: ('Google Shape;642;p46', 7), 232: ('Google Shape;643;p46', 7), 233: ('Google Shape;644;p46', 7), 234: ('Google Shape;645;p46', 7), 235: ('Google Shape;646;p46', 7), 236: ('Google Shape;647;p46', 7), 237: ('Google Shape;648;p46', 7), 238: ('Google Shape;649;p46', 7), 239: ('Google Shape;655;p47', 8), 240: ('Google Shape;656;p47', 8), 241: ('Google Shape;657;p47', 8), 242: ('Google Shape;658;p47', 8), 243: ('Google Shape;659;p47', 8), 244: ('Google Shape;660;p47', 8), 245: ('Google Shape;661;p47', 8), 246: ('Google Shape;662;p47', 8), 247: ('Google Shape;663;p47', 8), 248: ('Google Shape;664;p47', 8), 249: ('Google Shape;665;p47', 8), 250: ('Google Shape;666;p47', 8), 251: ('Google Shape;667;p47', 8), 252: ('Google Shape;668;p47', 8), 253: ('Google Shape;669;p47', 8), 254: ('Google Shape;670;p47', 8), 255: ('Google Shape;671;p47', 8), 256: ('Google Shape;672;p47', 8), 257: ('Google Shape;673;p47', 8), 258: ('Google Shape;674;p47', 8), 259: ('Google Shape;675;p47', 8), 260: ('Google Shape;676;p47', 8), 261: ('Google Shape;677;p47', 8), 262: ('Google Shape;678;p47', 8), 263: ('Google Shape;679;p47', 8), 264: ('Google Shape;680;p47', 8), 265: ('Google Shape;681;p47', 8), 266: ('Google Shape;682;p47', 8), 267: ('Google Shape;683;p47', 8), 268: ('Google Shape;689;p48', 9), 269: ('Google Shape;690;p48', 9), 270: ('Google Shape;691;p48', 9), 271: ('Google Shape;692;p48', 9), 272: ('Google Shape;693;p48', 9), 273: ('Google Shape;694;p48', 9), 274: ('Google Shape;695;p48', 9), 275: ('Google Shape;696;p48', 9), 276: ('Google Shape;697;p48', 9), 277: ('Google Shape;698;p48', 9), 278: ('Google Shape;699;p48', 9), 279: ('Google Shape;700;p48', 9), 280: ('Google Shape;701;p48', 9), 281: ('Google Shape;702;p48', 9), 282: ('Google Shape;703;p48', 9), 283: ('Google Shape;704;p48', 9), 284: ('Google Shape;705;p48', 9), 285: ('Google Shape;706;p48', 9), 286: ('Google Shape;707;p48', 9), 287: ('Google Shape;708;p48', 9), 288: ('Google Shape;709;p48', 9), 289: ('Google Shape;710;p48', 9), 290: ('Google Shape;711;p48', 9), 291: ('Google Shape;712;p48', 9), 292: ('Google Shape;713;p48', 9), 293: ('Google Shape;714;p48', 9), 294: ('Google Shape;715;p48', 9), 295: ('Google Shape;716;p48', 9), 296: ('Google Shape;717;p48', 9), 297: ('Google Shape;722;p49', 10), 298: ('Google Shape;723;p49', 10), 299: ('Google Shape;724;p49', 10)}
+  items: Dict[int, Tuple[str, int]] = {100: ('Google Shape;444;p43', 4), 101: ('Google Shape;445;p43', 4), 102: ('Google Shape;446;p43', 4), 103: ('Google Shape;447;p43', 4), 104: ('Google Shape;448;p43', 4), 105: ('Google Shape;449;p43', 4), 106: ('Google Shape;450;p43', 4), 107: ('Google Shape;451;p43', 4), 108: ('Google Shape;452;p43', 4), 109: ('Google Shape;453;p43', 4), 110: ('Google Shape;459;p43', 4), 111: ('Google Shape;460;p43', 4), 112: ('Google Shape;461;p43', 4), 113: ('Google Shape;462;p43', 4), 114: ('Google Shape;463;p43', 4), 115: ('Google Shape;464;p43', 4), 116: ('Google Shape;465;p43', 4), 117: ('Google Shape;466;p43', 4), 118: ('Google Shape;467;p43', 4), 119: ('Google Shape;468;p43', 4), 120: ('Google Shape;469;p43', 4), 121: ('Google Shape;470;p43', 4), 122: ('Google Shape;471;p43', 4), 123: ('Google Shape;472;p43', 4), 124: ('Google Shape;473;p43', 4), 125: ('Google Shape;474;p43', 4), 126: ('Google Shape;475;p43', 4), 127: ('Google Shape;476;p43', 4), 128: ('Google Shape;477;p43', 4), 129: ('Google Shape;478;p43', 4), 130: ('Google Shape;479;p43', 4), 131: ('Google Shape;492;p43', 4), 132: ('Google Shape;499;p44', 5), 133: ('Google Shape;500;p44', 5), 134: ('Google Shape;502;p44', 5), 135: ('Google Shape;503;p44', 5), 136: ('Google Shape;504;p44', 5), 137: ('Google Shape;506;p44', 5), 138: ('Google Shape;507;p44', 5), 139: ('Google Shape;508;p44', 5), 140: ('Google Shape;510;p44', 5), 141: ('Google Shape;511;p44', 5), 142: ('Google Shape;512;p44', 5), 143: ('Google Shape;513;p44', 5), 144: ('Google Shape;514;p44', 5), 145: ('Google Shape;515;p44', 5), 146: ('Google Shape;516;p44', 5), 147: ('Google Shape;517;p44', 5), 148: ('Google Shape;518;p44', 5), 149: ('Google Shape;519;p44', 5), 150: ('Google Shape;525;p44', 5), 151: ('Google Shape;526;p44', 5), 152: ('Google Shape;527;p44', 5), 153: ('Google Shape;528;p44', 5), 154: ('Google Shape;529;p44', 5), 155: ('Google Shape;530;p44', 5), 156: ('Google Shape;531;p44', 5), 157: ('Google Shape;532;p44', 5), 158: ('Google Shape;533;p44', 5), 159: ('Google Shape;534;p44', 5), 160: ('Google Shape;535;p44', 5), 161: ('Google Shape;536;p44', 5), 162: ('Google Shape;537;p44', 5), 163: ('Google Shape;538;p44', 5), 164: ('Google Shape;539;p44', 5), 165: ('Google Shape;540;p44', 5), 166: ('Google Shape;541;p44', 5), 167: ('Google Shape;542;p44', 5), 168: ('Google Shape;543;p44', 5), 169: ('Google Shape;544;p44', 5), 170: ('Google Shape;545;p44', 5), 171: ('Google Shape;558;p44', 5), 172: ('Google Shape;565;p45', 6), 173: ('Google Shape;566;p45', 6), 174: ('Google Shape;567;p45', 6), 175: ('Google Shape;568;p45', 6), 176: ('Google Shape;569;p45', 6), 177: ('Google Shape;570;p45', 6), 178: ('Google Shape;571;p45', 6), 179: ('Google Shape;572;p45', 6), 180: ('Google Shape;573;p45', 6), 181: ('Google Shape;575;p45', 6), 182: ('Google Shape;576;p45', 6), 183: ('Google Shape;578;p45', 6), 184: ('Google Shape;579;p45', 6), 185: ('Google Shape;581;p45', 6), 186: ('Google Shape;582;p45', 6), 187: ('Google Shape;584;p45', 6), 188: ('Google Shape;585;p45', 6), 189: ('Google Shape;587;p45', 6), 190: ('Google Shape;588;p45', 6), 191: ('Google Shape;590;p45', 6), 192: ('Google Shape;591;p45', 6), 193: ('Google Shape;593;p45', 6), 194: ('Google Shape;594;p45', 6), 195: ('Google Shape;596;p45', 6), 196: ('Google Shape;597;p45', 6), 197: ('Google Shape;599;p45', 6), 198: ('Google Shape;600;p45', 6), 199: ('Google Shape;602;p45', 6), 200: ('Google Shape;603;p45', 6), 201: ('Google Shape;605;p45', 6), 202: ('Google Shape;606;p45', 6), 203: ('Google Shape;608;p45', 6), 204: ('Google Shape;609;p45', 6), 205: ('Google Shape;611;p45', 6), 206: ('Google Shape;612;p45', 6), 207: ('Google Shape;614;p45', 6), 208: ('Google Shape;615;p45', 6), 209: ('Google Shape;616;p45', 6), 210: ('Google Shape;622;p46', 7), 211: ('Google Shape;623;p46', 7), 212: ('Google Shape;624;p46', 7), 213: ('Google Shape;625;p46', 7), 214: ('Google Shape;626;p46', 7), 215: ('Google Shape;627;p46', 7), 216: ('Google Shape;628;p46', 7), 217: ('Google Shape;629;p46', 7), 218: ('Google Shape;630;p46', 7), 219: ('Google Shape;631;p46', 7), 220: ('Google Shape;632;p46', 7), 221: ('Google Shape;633;p46', 7), 222: ('Google Shape;634;p46', 7), 223: ('Google Shape;635;p46', 7), 224: ('Google Shape;636;p46', 7), 225: ('Google Shape;637;p46', 7), 226: ('Google Shape;638;p46', 7), 227: ('Google Shape;639;p46', 7), 228: ('Google Shape;640;p46', 7), 229: ('Google Shape;641;p46', 7), 230: ('Google Shape;642;p46', 7), 231: ('Google Shape;643;p46', 7), 232: ('Google Shape;644;p46', 7), 233: ('Google Shape;645;p46', 7), 234: ('Google Shape;646;p46', 7), 235: ('Google Shape;647;p46', 7), 236: ('Google Shape;648;p46', 7), 237: ('Google Shape;649;p46', 7), 238: ('Google Shape;650;p46', 7), 239: ('Google Shape;656;p47', 8), 240: ('Google Shape;657;p47', 8), 241: ('Google Shape;658;p47', 8), 242: ('Google Shape;659;p47', 8), 243: ('Google Shape;660;p47', 8), 244: ('Google Shape;661;p47', 8), 245: ('Google Shape;662;p47', 8), 246: ('Google Shape;663;p47', 8), 247: ('Google Shape;664;p47', 8), 248: ('Google Shape;665;p47', 8), 249: ('Google Shape;666;p47', 8), 250: ('Google Shape;667;p47', 8), 251: ('Google Shape;668;p47', 8), 252: ('Google Shape;669;p47', 8), 253: ('Google Shape;670;p47', 8), 254: ('Google Shape;671;p47', 8), 255: ('Google Shape;672;p47', 8), 256: ('Google Shape;673;p47', 8), 257: ('Google Shape;674;p47', 8), 258: ('Google Shape;675;p47', 8), 259: ('Google Shape;676;p47', 8), 260: ('Google Shape;677;p47', 8), 261: ('Google Shape;678;p47', 8), 262: ('Google Shape;679;p47', 8), 263: ('Google Shape;680;p47', 8), 264: ('Google Shape;681;p47', 8), 265: ('Google Shape;682;p47', 8), 266: ('Google Shape;683;p47', 8), 267: ('Google Shape;684;p47', 8), 268: ('Google Shape;690;p48', 9), 269: ('Google Shape;691;p48', 9), 270: ('Google Shape;692;p48', 9), 271: ('Google Shape;693;p48', 9), 272: ('Google Shape;694;p48', 9), 273: ('Google Shape;695;p48', 9), 274: ('Google Shape;696;p48', 9), 275: ('Google Shape;697;p48', 9), 276: ('Google Shape;698;p48', 9), 277: ('Google Shape;699;p48', 9), 278: ('Google Shape;700;p48', 9), 279: ('Google Shape;701;p48', 9), 280: ('Google Shape;702;p48', 9), 281: ('Google Shape;703;p48', 9), 282: ('Google Shape;704;p48', 9), 283: ('Google Shape;705;p48', 9), 284: ('Google Shape;706;p48', 9), 285: ('Google Shape;707;p48', 9), 286: ('Google Shape;708;p48', 9), 287: ('Google Shape;709;p48', 9), 288: ('Google Shape;710;p48', 9), 289: ('Google Shape;711;p48', 9), 290: ('Google Shape;712;p48', 9), 291: ('Google Shape;713;p48', 9), 292: ('Google Shape;714;p48', 9), 293: ('Google Shape;715;p48', 9), 294: ('Google Shape;716;p48', 9), 295: ('Google Shape;717;p48', 9), 296: ('Google Shape;718;p48', 9), 297: ('Google Shape;723;p49', 10), 298: ('Google Shape;724;p49', 10), 299: ('Google Shape;725;p49', 10)}
 
   # Add graphs (confirm indices if your slide order changed)
   # If slide order is volatile, consider naming a placeholder shape and deriving its slide via _index_shapes_by_name.

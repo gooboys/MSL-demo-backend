@@ -176,10 +176,11 @@ def _create_pie_chart(data: dict[str, int]) -> bytes:
         xytext=(x_out, y_out),
         ha="left" if x_out >= 0 else "right",
         va="center",
+        color="black",   # ✅ explicitly black outside
         arrowprops=dict(arrowstyle="-", lw=0.8, shrinkA=0, shrinkB=0),
       )
     else:
-      ax.text(x, y, f"{int(val):,}", ha="center", va="center", fontsize=10)
+      ax.text(x, y, f"{int(val):,}", ha="center", va="center", fontsize=10, color="white")
 
   # Legend at the bottom, multi-column if many labels
   ncol = 2 if len(labels) <= 6 else 3
