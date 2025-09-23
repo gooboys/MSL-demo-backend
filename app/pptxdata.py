@@ -193,7 +193,7 @@ def editPPTX(pres, ref: Dict[int, Dict], items: Dict[int, Tuple[str, int]], debu
     debug : print duplicate & missing name diagnostics
   """
   # headings using simple setter
-  special_ids: Set[int] = {220, 229, 238, 249, 258, 267, 278, 287, 296}
+  special_ids: Set[int] = {}
   special_names = { items[i][0] for i in special_ids if i in items }
 
   # name-keyed config from (ref, items)
@@ -295,15 +295,15 @@ def true_replacement(
     143: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f"), "bold": True},
     145: {"text": safe_get(single, 0, "idea"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
     146: {"text": safe_get(single, 1, "idea"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
     147: {"text": safe_get(single, 3, "idea"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
     148: {"text": safe_get(single, 4, "idea"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
     149: {"text": safe_get(single, 2, "idea"),
-          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
 
     156: {"text": safe_get(single, 0, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
