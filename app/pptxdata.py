@@ -303,7 +303,7 @@ def true_replacement(
     148: {"text": safe_get(single, 4, "idea"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
     149: {"text": safe_get(single, 2, "idea"),
-          "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
+          "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
 
     156: {"text": safe_get(single, 0, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
