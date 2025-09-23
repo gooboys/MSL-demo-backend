@@ -5,6 +5,7 @@ from pptx.shapes.group import GroupShape
 from pptx.oxml.xmlchemy import OxmlElement
 from pptx.oxml.ns import qn
 from io import BytesIO
+import ast
 import os
 from typing import Dict, Any, Tuple, List, Set
 
@@ -69,11 +70,20 @@ def hex_to_rgb(hex_code: str) -> tuple[int, int, int]:
   return tuple(int(s[i:i+2], 16) for i in (0, 2, 4))
 
 def _textify_categories(val) -> str:
-  if val is None:
-    return ""
-  if isinstance(val, (list, tuple, set)):
-    return ", ".join(map(str, val))
-  return str(val)
+    if val is None:
+        return ""
+    if isinstance(val, (list, tuple, set)):
+        return ", ".join(map(str, val))
+    if isinstance(val, str):
+        # Handle stringified lists: "['Competitive Insights','Education']"
+        try:
+            parsed = ast.literal_eval(val)
+            if isinstance(parsed, (list, tuple, set)):
+                return ", ".join(map(str, parsed))
+        except (SyntaxError, ValueError):
+            pass
+        return val
+    return str(val)
 
 # ======================
 # Shape discovery
