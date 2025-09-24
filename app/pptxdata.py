@@ -467,11 +467,11 @@ def true_replacement(
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
     1468: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[0].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1477: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[1].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1486: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[2].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     1470: {"text": f"1: {patient[0].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {patient[0].get('root_cause_questions', ['',''])[1] or ''}",
@@ -501,11 +501,11 @@ def true_replacement(
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
     1497: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[0].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1506: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[1].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1515: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[2].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     1499: {"text": f"1: {education[0].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {education[0].get('root_cause_questions', ['',''])[1] or ''}",
@@ -535,11 +535,11 @@ def true_replacement(
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
     1526: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[0].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1535: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[1].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
     1544: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]),
-          "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
+          "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     1528: {"text": f"1: {competitive[0].get('root_cause_questions', ['',''])[0] or ''}\n"
         f"2: {competitive[0].get('root_cause_questions', ['',''])[1] or ''}",
