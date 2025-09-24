@@ -3,3 +3,4 @@ __pycache__
 *.pptx
 test.py
 inspect_pptx_names.py
+dedupe_pptx_names.py
