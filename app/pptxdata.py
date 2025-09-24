@@ -390,166 +390,160 @@ def true_replacement(
 
   # Build ref (id -> cfg). NOTE: categories fields normalized to text via editor.
   ref: Dict[int, Dict[str, Any]] = {
-    1390: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
+    1362: {"text": safe_get(single, 0, "Raw CRM Input (from MSL)"),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f"), "bold": True},
-    1392: {"text": safe_get(single, 0, "idea"),
+    1364: {"text": safe_get(single, 0, "idea"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
-    1393: {"text": safe_get(single, 1, "idea"),
+    1365: {"text": safe_get(single, 1, "idea"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
-    1394: {"text": safe_get(single, 3, "idea"),
+    1366: {"text": safe_get(single, 3, "idea"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
-    1395: {"text": safe_get(single, 4, "idea"),
+    1367: {"text": safe_get(single, 4, "idea"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f"), "bold": True},
-    1396: {"text": safe_get(single, 2, "idea"),
+    1368: {"text": safe_get(single, 2, "idea"),
           "font": "Century Gothic", "font_size": 6, "font_color": hex_to_rgb("28246f"), "bold": True},
 
-    1403: {"text": safe_get(single, 0, "value_classification_rationale"),
+    1375: {"text": safe_get(single, 0, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1404: {"text": safe_get(single, 1, "value_classification_rationale"),
+    1376: {"text": safe_get(single, 1, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1405: {"text": safe_get(single, 3, "value_classification_rationale"),
+    1377: {"text": safe_get(single, 3, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1406: {"text": safe_get(single, 4, "value_classification_rationale"),
+    1378: {"text": safe_get(single, 4, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1407: {"text": safe_get(single, 2, "value_classification_rationale"),
+    1379: {"text": safe_get(single, 2, "value_classification_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # categories: accept list or str
-    1409: {"text": _textify_categories(safe_get(single, 0, "categories")),
+    1381: {"text": _textify_categories(safe_get(single, 0, "categories")),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
-    1410: {"text": _textify_categories(safe_get(single, 1, "categories")),
+    1382: {"text": _textify_categories(safe_get(single, 1, "categories")),
           "font": "Century Gothic", "font_size": 10, "font_color": (255, 255, 255)},
 
-    1413: {"text": safe_get(single, 0, "categorization_rationale"),
+    1385: {"text": safe_get(single, 0, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1414: {"text": safe_get(single, 1, "categorization_rationale"),
+    1386: {"text": safe_get(single, 1, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 7, "font_color": hex_to_rgb("28246f")},
-    1416: {"text": safe_get(single, 2, "categorization_rationale"),
+    1388: {"text": safe_get(single, 2, "categorization_rationale"),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 2
-    1428: {"text": stats.get("Reporting_Dates", ""),
+    1405: {"text": stats.get("Reporting_Dates", ""),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    1432: {"text": str(stats.get("deployedMSLS", "")),
+    1409: {"text": str(stats.get("deployedMSLS", "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    1434: {"text": "Total: " + str(stats.get("totalInteractions", "")),
+    1411: {"text": "Total: " + str(stats.get("totalInteractions", "")),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    1430: {"text": "\n".join(stats.get('Congresses', [])),
+    1407: {"text": "\n".join(stats.get('Congresses', [])),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    1436: {"text": str(100),
+    1413: {"text": str(100),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
-    1457: {"text": str(189),
+    1434: {"text": str(189),
           "font": "Century Gothic", "font_size": 16, "font_color": hex_to_rgb("28246f")},
 
-    1438: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1440: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1442: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1444: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1446: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1448: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1450: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1452: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
-    1454: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1415: {"text": str(catcount[0]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1417: {"text": str(catcount[1]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1419: {"text": str(catcount[2]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1421: {"text": str(catcount[3]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1423: {"text": str(catcount[4]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1425: {"text": str(catcount[5]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1427: {"text": str(catcount[6]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1429: {"text": str(catcount[7]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
+    1431: {"text": str(catcount[8]), "font": "Century Gothic", "font_size": 11, "font_color": hex_to_rgb("333333"), "bold":True},
 
     # Slide 3: Patient
-    1464: {"text": f"Theme 1 (n={len(patient[0].get('other_sources', [])) + 3})",
+    1441: {"text": f"Theme 1 (n={len(patient[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1473: {"text": f"Theme 2 (n={len(patient[1].get('other_sources', [])) + 3})",
+    1450: {"text": f"Theme 2 (n={len(patient[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1482: {"text": f"Theme 3 (n={len(patient[2].get('other_sources', [])) + 3})",
+    1459: {"text": f"Theme 3 (n={len(patient[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    1466: {"text": patient[0].get("gap_definition", ""),
+    1443: {"text": patient[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1475: {"text": patient[1].get("gap_definition", ""),
+    1452: {"text": patient[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1484: {"text": patient[2].get("gap_definition", ""),
+    1461: {"text": patient[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    1468: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[0].get("representative_quotes", [])]),
+    1445: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1477: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[1].get("representative_quotes", [])]),
+    1454: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1486: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[2].get("representative_quotes", [])]),
+    1463: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in patient[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    1470: {"text": f"1: {patient[0].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1447: {"text": f"1: {patient[0].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {patient[0].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-
-    1479: {"text": f"1: {patient[1].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1456: {"text": f"1: {patient[1].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {patient[1].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-
-    1488: {"text": f"1: {patient[2].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1465: {"text": f"1: {patient[2].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {patient[2].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 4: Education
-    1493: {"text": f"Theme 1 (n={len(education[0].get('other_sources', [])) + 3})",
+    1470: {"text": f"Theme 1 (n={len(education[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1502: {"text": f"Theme 2 (n={len(education[1].get('other_sources', [])) + 3})",
+    1479: {"text": f"Theme 2 (n={len(education[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1511: {"text": f"Theme 3 (n={len(education[2].get('other_sources', [])) + 3})",
+    1488: {"text": f"Theme 3 (n={len(education[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    1495: {"text": education[0].get("gap_definition", ""),
+    1472: {"text": education[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1504: {"text": education[1].get("gap_definition", ""),
+    1481: {"text": education[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1513: {"text": education[2].get("gap_definition", ""),
+    1490: {"text": education[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    1497: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[0].get("representative_quotes", [])]),
+    1474: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1506: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[1].get("representative_quotes", [])]),
+    1483: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1515: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[2].get("representative_quotes", [])]),
+    1492: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in education[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    1499: {"text": f"1: {education[0].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1476: {"text": f"1: {education[0].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {education[0].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-
-    1508: {"text": f"1: {education[1].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1485: {"text": f"1: {education[1].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {education[1].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-
-    1517: {"text": f"1: {education[2].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1494: {"text": f"1: {education[2].get('root_cause_questions', ['',''])[0] or ''}\n"
           f"2: {education[2].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
     # Slide 5: Competitive
-    1522: {"text": f"Theme 1 (n={len(competitive[0].get('other_sources', [])) + 3})",
+    1499: {"text": f"Theme 1 (n={len(competitive[0].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1531: {"text": f"Theme 2 (n={len(competitive[1].get('other_sources', [])) + 3})",
+    1508: {"text": f"Theme 2 (n={len(competitive[1].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
-    1540: {"text": f"Theme 3 (n={len(competitive[2].get('other_sources', [])) + 3})",
+    1517: {"text": f"Theme 3 (n={len(competitive[2].get('other_sources', [])) + 3})",
           "font": "Century Gothic", "font_size": 14, "font_color": hex_to_rgb("28246f")},
 
-    1524: {"text": competitive[0].get("gap_definition", ""),
+    1501: {"text": competitive[0].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1533: {"text": competitive[1].get("gap_definition", ""),
+    1510: {"text": competitive[1].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
-    1542: {"text": competitive[2].get("gap_definition", ""),
+    1519: {"text": competitive[2].get("gap_definition", ""),
           "font": "Century Gothic", "font_size": 10, "font_color": hex_to_rgb("28246f")},
 
-    1526: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[0].get("representative_quotes", [])]),
+    1503: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[0].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1535: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[1].get("representative_quotes", [])]),
+    1512: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[1].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
-    1544: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]),
+    1521: {"text": "\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]),
           "font": "Century Gothic", "font_size": 8, "font_color": hex_to_rgb("28246f")},
 
-    1528: {"text": f"1: {competitive[0].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1505: {"text": f"1: {competitive[0].get('root_cause_questions', ['',''])[0] or ''}\n"
         f"2: {competitive[0].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
-
-    1537: {"text": f"1: {competitive[1].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1514: {"text": f"1: {competitive[1].get('root_cause_questions', ['',''])[0] or ''}\n"
         f"2: {competitive[1].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")},
-
-    1546: {"text": f"1: {competitive[2].get('root_cause_questions', ['',''])[0] or ''}\n"
+    1523: {"text": f"1: {competitive[2].get('root_cause_questions', ['',''])[0] or ''}\n"
         f"2: {competitive[2].get('root_cause_questions', ['',''])[1] or ''}",
       "font": "Century Gothic", "font_size": 9, "font_color": hex_to_rgb("28246f")}
   }
@@ -559,13 +553,13 @@ def true_replacement(
   print("\n".join([f"id {q.get('id')}: '{q.get('quote','')}'" for q in competitive[2].get("representative_quotes", [])]))
 
   # items: id -> (shape_name, slide_idx_hint).
-  items: Dict[int, Tuple[str, int]] = {1350: ('Google Shape;449;p43', 5), 1351: ('Google Shape;450;p43', 5), 1352: ('Google Shape;451;p43', 5), 1353: ('Google Shape;452;p43', 5), 1354: ('Google Shape;453;p43', 5), 1355: ('Google Shape;459;p43', 5), 1356: ('Google Shape;460;p43', 5), 1357: ('Google Shape;461;p43', 5), 1358: ('Google Shape;462;p43', 5), 1359: ('Google Shape;463;p43', 5), 1360: ('Google Shape;464;p43', 5), 1361: ('Google Shape;465;p43', 5), 1362: ('Google Shape;466;p43', 5), 1363: ('Google Shape;467;p43', 5), 1364: ('Google Shape;468;p43', 5), 1365: ('Google Shape;469;p43', 5), 1366: ('Google Shape;470;p43', 5), 1367: ('Google Shape;471;p43', 5), 1368: ('Google Shape;472;p43', 5), 1369: ('Google Shape;473;p43', 5), 1370: ('Google Shape;474;p43', 5), 1371: ('Google Shape;475;p43', 5), 1372: ('Google Shape;476;p43', 5), 1373: ('Google Shape;477;p43', 5), 1374: ('Google Shape;478;p43', 5), 1375: ('Google Shape;479;p43', 5), 1376: ('Google Shape;492;p43', 5), 1377: ('Google Shape;433;p43', 6), 1378: ('Google Shape;434;p43', 6), 1379: ('Google Shape;499;p44', 7), 1380: ('Google Shape;500;p44', 7), 1381: ('Google Shape;502;p44', 7), 1382: ('Google Shape;503;p44', 7), 1383: ('Google Shape;504;p44', 7), 1384: ('Google Shape;506;p44', 7), 1385: ('Google Shape;507;p44', 7), 1386: ('Google Shape;508;p44', 7), 1387: ('Google Shape;510;p44', 7), 1388: ('Google Shape;511;p44', 7), 1389: ('Google Shape;512;p44', 7), 1390: ('Google Shape;513;p44', 7), 1391: ('Google Shape;514;p44', 7), 1392: ('Google Shape;515;p44', 7), 1393: ('Google Shape;516;p44', 7), 1394: ('Google Shape;517;p44', 7), 1395: ('Google Shape;518;p44', 7), 1396: ('Google Shape;519;p44', 7), 1397: ('Google Shape;525;p44', 7), 1398: ('Google Shape;526;p44', 7), 1399: ('Google Shape;527;p44', 7), 1400: ('Google Shape;528;p44', 7), 1401: ('Google Shape;529;p44', 7), 1402: ('Google Shape;530;p44', 7), 1403: ('Google Shape;531;p44', 7), 1404: ('Google Shape;532;p44', 7), 1405: ('Google Shape;533;p44', 7), 1406: ('Google Shape;534;p44', 7), 1407: ('Google Shape;535;p44', 7), 1408: ('Google Shape;536;p44', 7), 1409: ('Google Shape;537;p44', 7), 1410: ('Google Shape;538;p44', 7), 1411: ('Google Shape;539;p44', 7), 1412: ('Google Shape;540;p44', 7), 1413: ('Google Shape;541;p44', 7), 1414: ('Google Shape;542;p44', 7), 1415: ('Google Shape;543;p44', 7), 1416: ('Google Shape;544;p44', 7), 1417: ('Google Shape;545;p44', 7), 1418: ('Google Shape;558;p44', 7), 1419: ('Google Shape;565;p45', 8), 1420: ('Google Shape;566;p45', 8), 1421: ('Google Shape;567;p45', 8), 1422: ('Google Shape;568;p45', 8), 1423: ('Google Shape;569;p45', 8), 1424: ('Google Shape;570;p45', 8), 1425: ('Google Shape;571;p45', 8), 1426: ('Google Shape;572;p45', 8), 1427: ('Google Shape;573;p45', 8), 1428: ('Google Shape;575;p45', 8), 1429: ('Google Shape;576;p45', 8), 1430: ('Google Shape;578;p45', 8), 1431: ('Google Shape;579;p45', 8), 1432: ('Google Shape;581;p45', 8), 1433: ('Google Shape;582;p45', 8), 1434: ('Google Shape;584;p45', 8), 1435: ('Google Shape;585;p45', 8), 1436: ('Google Shape;587;p45', 8), 1437: ('Google Shape;588;p45', 8), 1438: ('Google Shape;590;p45', 8), 1439: ('Google Shape;591;p45', 8), 1440: ('Google Shape;593;p45', 8), 1441: ('Google Shape;594;p45', 8), 1442: ('Google Shape;596;p45', 8), 1443: ('Google Shape;597;p45', 8), 1444: ('Google Shape;599;p45', 8), 1445: ('Google Shape;600;p45', 8), 1446: ('Google Shape;602;p45', 8), 1447: ('Google Shape;603;p45', 8), 1448: ('Google Shape;605;p45', 8), 1449: ('Google Shape;606;p45', 8), 1450: ('Google Shape;608;p45', 8), 1451: ('Google Shape;609;p45', 8), 1452: ('Google Shape;611;p45', 8), 1453: ('Google Shape;612;p45', 8), 1454: ('Google Shape;614;p45', 8), 1455: ('Google Shape;615;p45', 8), 1456: ('Google Shape;616;p45', 8), 1457: ('Google Shape;587;p45', 8), 1458: ('Google Shape;588;p45', 8), 1459: ('Google Shape;616;p45', 8), 1460: ('Google Shape;622;p46', 9), 1461: ('Google Shape;623;p46', 9), 1462: ('Google Shape;624;p46', 9), 1463: ('Google Shape;625;p46', 9), 1464: ('Google Shape;626;p46', 9), 1465: ('Google Shape;627;p46', 9), 1466: ('Google Shape;628;p46', 9), 1467: ('Google Shape;629;p46', 9), 1468: ('Google Shape;630;p46', 9), 1469: ('Google Shape;631;p46', 9), 1470: ('Google Shape;632;p46', 9), 1471: ('Google Shape;633;p46', 9), 1472: ('Google Shape;634;p46', 9), 1473: ('Google Shape;635;p46', 9), 1474: ('Google Shape;636;p46', 9), 1475: ('Google Shape;637;p46', 9), 1476: ('Google Shape;638;p46', 9), 1477: ('Google Shape;639;p46', 9), 1478: ('Google Shape;640;p46', 9), 1479: ('Google Shape;641;p46', 9), 1480: ('Google Shape;642;p46', 9), 1481: ('Google Shape;643;p46', 9), 1482: ('Google Shape;644;p46', 9), 1483: ('Google Shape;645;p46', 9), 1484: ('Google Shape;646;p46', 9), 1485: ('Google Shape;647;p46', 9), 1486: ('Google Shape;648;p46', 9), 1487: ('Google Shape;649;p46', 9), 1488: ('Google Shape;650;p46', 9), 1489: ('Google Shape;656;p47', 10), 1490: ('Google Shape;657;p47', 10), 1491: ('Google Shape;658;p47', 10), 1492: ('Google Shape;659;p47', 10), 1493: ('Google Shape;660;p47', 10), 1494: ('Google Shape;661;p47', 10), 1495: ('Google Shape;662;p47', 10), 1496: ('Google Shape;663;p47', 10), 1497: ('Google Shape;664;p47', 10), 1498: ('Google Shape;665;p47', 10), 1499: ('Google Shape;666;p47', 10), 1500: ('Google Shape;667;p47', 10), 1501: ('Google Shape;668;p47', 10), 1502: ('Google Shape;669;p47', 10), 1503: ('Google Shape;670;p47', 10), 1504: ('Google Shape;671;p47', 10), 1505: ('Google Shape;672;p47', 10), 1506: ('Google Shape;673;p47', 10), 1507: ('Google Shape;674;p47', 10), 1508: ('Google Shape;675;p47', 10), 1509: ('Google Shape;676;p47', 10), 1510: ('Google Shape;677;p47', 10), 1511: ('Google Shape;678;p47', 10), 1512: ('Google Shape;679;p47', 10), 1513: ('Google Shape;680;p47', 10), 1514: ('Google Shape;681;p47', 10), 1515: ('Google Shape;682;p47', 10), 1516: ('Google Shape;683;p47', 10), 1517: ('Google Shape;684;p47', 10), 1518: ('Google Shape;690;p48', 11), 1519: ('Google Shape;691;p48', 11), 1520: ('Google Shape;692;p48', 11), 1521: ('Google Shape;693;p48', 11), 1522: ('Google Shape;694;p48', 11), 1523: ('Google Shape;695;p48', 11), 1524: ('Google Shape;696;p48', 11), 1525: ('Google Shape;697;p48', 11), 1526: ('Google Shape;698;p48', 11), 1527: ('Google Shape;699;p48', 11), 1528: ('Google Shape;700;p48', 11), 1529: ('Google Shape;701;p48', 11), 1530: ('Google Shape;702;p48', 11), 1531: ('Google Shape;703;p48', 11), 1532: ('Google Shape;704;p48', 11), 1533: ('Google Shape;705;p48', 11), 1534: ('Google Shape;706;p48', 11), 1535: ('Google Shape;707;p48', 11), 1536: ('Google Shape;708;p48', 11), 1537: ('Google Shape;709;p48', 11), 1538: ('Google Shape;710;p48', 11), 1539: ('Google Shape;711;p48', 11), 1540: ('Google Shape;712;p48', 11), 1541: ('Google Shape;713;p48', 11), 1542: ('Google Shape;714;p48', 11), 1543: ('Google Shape;715;p48', 11), 1544: ('Google Shape;716;p48', 11), 1545: ('Google Shape;717;p48', 11), 1546: ('Google Shape;718;p48', 11), 1547: ('Google Shape;294;p39', 12), 1548: ('Google Shape;295;p39', 12), 1549: ('Google Shape;296;p39', 12)}
+  items: Dict[int, Tuple[str, int]] = {1350: ('Rectangle: Rounded Corners 136', 4), 1351: ('Google Shape;499;p44', 5), 1352: ('Google Shape;500;p44', 5), 1353: ('Google Shape;502;p44', 5), 1354: ('Google Shape;503;p44', 5), 1355: ('Google Shape;504;p44', 5), 1356: ('Google Shape;506;p44', 5), 1357: ('Google Shape;507;p44', 5), 1358: ('Google Shape;508;p44', 5), 1359: ('Google Shape;510;p44', 5), 1360: ('Google Shape;511;p44', 5), 1361: ('Google Shape;512;p44', 5), 1362: ('Google Shape;513;p44', 5), 1363: ('Google Shape;514;p44', 5), 1364: ('Google Shape;515;p44', 5), 1365: ('Google Shape;516;p44', 5), 1366: ('Google Shape;517;p44', 5), 1367: ('Google Shape;518;p44', 5), 1368: ('Google Shape;519;p44', 5), 1369: ('Google Shape;525;p44', 5), 1370: ('Google Shape;526;p44', 5), 1371: ('Google Shape;527;p44', 5), 1372: ('Google Shape;528;p44', 5), 1373: ('Google Shape;529;p44', 5), 1374: ('Google Shape;530;p44', 5), 1375: ('Google Shape;531;p44', 5), 1376: ('Google Shape;532;p44', 5), 1377: ('Google Shape;533;p44', 5), 1378: ('Google Shape;534;p44', 5), 1379: ('Google Shape;535;p44', 5), 1380: ('Google Shape;536;p44', 5), 1381: ('Google Shape;537;p44', 5), 1382: ('Google Shape;538;p44', 5), 1383: ('Google Shape;539;p44', 5), 1384: ('Google Shape;540;p44', 5), 1385: ('Google Shape;541;p44', 5), 1386: ('Google Shape;542;p44', 5), 1387: ('Google Shape;543;p44', 5), 1388: ('Google Shape;544;p44', 5), 1389: ('Google Shape;545;p44', 5), 1390: ('Google Shape;433;p43', 6), 1391: ('Google Shape;434;p43', 6), 1392: ('Rectangle: Rounded Corners 1', 6), 1393: ('Rectangle: Rounded Corners 6', 6), 1394: ('Rectangle: Rounded Corners 2', 6), 1395: ('Rectangle 8', 6), 1396: ('Google Shape;565;p45', 7), 1397: ('Google Shape;566;p45', 7), 1398: ('Google Shape;567;p45', 7), 1399: ('Google Shape;568;p45', 7), 1400: ('Google Shape;569;p45', 7), 1401: ('Google Shape;570;p45', 7), 1402: ('Google Shape;571;p45', 7), 1403: ('Google Shape;572;p45', 7), 1404: ('Google Shape;573;p45', 7), 1405: ('Google Shape;575;p45', 7), 1406: ('Google Shape;576;p45', 7), 1407: ('Google Shape;578;p45', 7), 1408: ('Google Shape;579;p45', 7), 1409: ('Google Shape;581;p45', 7), 1410: ('Google Shape;582;p45', 7), 1411: ('Google Shape;584;p45', 7), 1412: ('Google Shape;585;p45', 7), 1413: ('Google Shape;587;p45', 7), 1414: ('Google Shape;588;p45', 7), 1415: ('Google Shape;590;p45', 7), 1416: ('Google Shape;591;p45', 7), 1417: ('Google Shape;593;p45', 7), 1418: ('Google Shape;594;p45', 7), 1419: ('Google Shape;596;p45', 7), 1420: ('Google Shape;597;p45', 7), 1421: ('Google Shape;599;p45', 7), 1422: ('Google Shape;600;p45', 7), 1423: ('Google Shape;602;p45', 7), 1424: ('Google Shape;603;p45', 7), 1425: ('Google Shape;605;p45', 7), 1426: ('Google Shape;606;p45', 7), 1427: ('Google Shape;608;p45', 7), 1428: ('Google Shape;609;p45', 7), 1429: ('Google Shape;611;p45', 7), 1430: ('Google Shape;612;p45', 7), 1431: ('Google Shape;614;p45', 7), 1432: ('Google Shape;615;p45', 7), 1433: ('Google Shape;616;p45', 7), 1434: ('Google Shape;587;p45', 7), 1435: ('Google Shape;588;p45', 7), 1436: ('Google Shape;616;p45', 7), 1437: ('Google Shape;622;p46', 8), 1438: ('Google Shape;623;p46', 8), 1439: ('Google Shape;624;p46', 8), 1440: ('Google Shape;625;p46', 8), 1441: ('Google Shape;626;p46', 8), 1442: ('Google Shape;627;p46', 8), 1443: ('Google Shape;628;p46', 8), 1444: ('Google Shape;629;p46', 8), 1445: ('Google Shape;630;p46', 8), 1446: ('Google Shape;631;p46', 8), 1447: ('Google Shape;632;p46', 8), 1448: ('Google Shape;633;p46', 8), 1449: ('Google Shape;634;p46', 8), 1450: ('Google Shape;635;p46', 8), 1451: ('Google Shape;636;p46', 8), 1452: ('Google Shape;637;p46', 8), 1453: ('Google Shape;638;p46', 8), 1454: ('Google Shape;639;p46', 8), 1455: ('Google Shape;640;p46', 8), 1456: ('Google Shape;641;p46', 8), 1457: ('Google Shape;642;p46', 8), 1458: ('Google Shape;643;p46', 8), 1459: ('Google Shape;644;p46', 8), 1460: ('Google Shape;645;p46', 8), 1461: ('Google Shape;646;p46', 8), 1462: ('Google Shape;647;p46', 8), 1463: ('Google Shape;648;p46', 8), 1464: ('Google Shape;649;p46', 8), 1465: ('Google Shape;650;p46', 8), 1466: ('Google Shape;656;p47', 9), 1467: ('Google Shape;657;p47', 9), 1468: ('Google Shape;658;p47', 9), 1469: ('Google Shape;659;p47', 9), 1470: ('Google Shape;660;p47', 9), 1471: ('Google Shape;661;p47', 9), 1472: ('Google Shape;662;p47', 9), 1473: ('Google Shape;663;p47', 9), 1474: ('Google Shape;664;p47', 9), 1475: ('Google Shape;665;p47', 9), 1476: ('Google Shape;666;p47', 9), 1477: ('Google Shape;667;p47', 9), 1478: ('Google Shape;668;p47', 9), 1479: ('Google Shape;669;p47', 9), 1480: ('Google Shape;670;p47', 9), 1481: ('Google Shape;671;p47', 9), 1482: ('Google Shape;672;p47', 9), 1483: ('Google Shape;673;p47', 9), 1484: ('Google Shape;674;p47', 9), 1485: ('Google Shape;675;p47', 9), 1486: ('Google Shape;676;p47', 9), 1487: ('Google Shape;677;p47', 9), 1488: ('Google Shape;678;p47', 9), 1489: ('Google Shape;679;p47', 9), 1490: ('Google Shape;680;p47', 9), 1491: ('Google Shape;681;p47', 9), 1492: ('Google Shape;682;p47', 9), 1493: ('Google Shape;683;p47', 9), 1494: ('Google Shape;684;p47', 9), 1495: ('Google Shape;690;p48', 10), 1496: ('Google Shape;691;p48', 10), 1497: ('Google Shape;692;p48', 10), 1498: ('Google Shape;693;p48', 10), 1499: ('Google Shape;694;p48', 10), 1500: ('Google Shape;695;p48', 10), 1501: ('Google Shape;696;p48', 10), 1502: ('Google Shape;697;p48', 10), 1503: ('Google Shape;698;p48', 10), 1504: ('Google Shape;699;p48', 10), 1505: ('Google Shape;700;p48', 10), 1506: ('Google Shape;701;p48', 10), 1507: ('Google Shape;702;p48', 10), 1508: ('Google Shape;703;p48', 10), 1509: ('Google Shape;704;p48', 10), 1510: ('Google Shape;705;p48', 10), 1511: ('Google Shape;706;p48', 10), 1512: ('Google Shape;707;p48', 10), 1513: ('Google Shape;708;p48', 10), 1514: ('Google Shape;709;p48', 10), 1515: ('Google Shape;710;p48', 10), 1516: ('Google Shape;711;p48', 10), 1517: ('Google Shape;712;p48', 10), 1518: ('Google Shape;713;p48', 10), 1519: ('Google Shape;714;p48', 10), 1520: ('Google Shape;715;p48', 10), 1521: ('Google Shape;716;p48', 10), 1522: ('Google Shape;717;p48', 10), 1523: ('Google Shape;718;p48', 10), 1524: ('Google Shape;295;p39', 11), 1525: ('Google Shape;296;p39', 11), 1526: ('Google Shape;297;p39', 11), 1527: ('Google Shape;298;p39', 11), 1528: ('Google Shape;299;p39', 11), 1529: ('Google Shape;300;p39', 11)}
 
   # Add graphs (confirm indices if your slide order changed)
   # If slide order is volatile, consider naming a placeholder shape and deriving its slide via _index_shapes_by_name.
   insert_image_fit_units(
     prs,
-    slide_idx=8,
+    slide_idx=7,
     image_bytes=stats['graph1'],
     box_w=4.2,
     box_h=2.4,
@@ -576,7 +570,7 @@ def true_replacement(
 
   insert_image_fit_units(
     prs,
-    slide_idx=8,
+    slide_idx=7,
     image_bytes=stats['graph2'],
     box_w=4.3,
     box_h=3,
